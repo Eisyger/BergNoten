@@ -4,12 +4,48 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:BergNoten"
-    Shell.FlyoutBehavior="Disabled"
-    Title="BergNoten">
+    xmlns:view="clr-namespace:BergNoten.View"
+    Title="BergNoten"
+    Shell.FlyoutBehavior="Flyout">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Laden" Icon="stift.png">
+        <ShellContent
+            Title="Laden"
+            ContentTemplate="{DataTemplate view:Laden}"
+            Route="Laden" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Exportieren" Icon="stift.png">
+        <ShellContent
+            Title="Exportieren"
+            ContentTemplate="{DataTemplate view:Exportieren}"
+            Route="Exportieren" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Notenvergabe" Icon="teilnehmer.png">
+        <ShellContent
+            Title="Prüfungen"
+            ContentTemplate="{DataTemplate view:Pruefungen}"
+            Route="Pruefungen" />
+
+        <ShellContent
+            Title="Teilnehmer"
+            ContentTemplate="{DataTemplate view:Teilnehmer}"
+            Route="Teilnehmer" />
+
+        <ShellContent
+            Title="Stift"
+            ContentTemplate="{DataTemplate view:Noten}"
+            Route="Noten" />
+    </FlyoutItem>
+
+
+    <FlyoutItem Title="Einstellungen" Icon="zahnrad.png">
+        <ShellContent
+            Title="Einstellungen"
+            ContentTemplate="{DataTemplate view:Einstellungen}"
+            Route="Einstellungen" />
+    </FlyoutItem>
+
 
 </Shell>

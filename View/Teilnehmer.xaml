@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BergNoten.View.Teilnehmer"
+             Title="Teilnehmer">
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <Image
+                Aspect="AspectFit"
+                HeightRequest="185"
+                Source="teilnehmer.png" />
+
+            <Label
+                SemanticProperties.HeadingLevel="Level1"
+                Style="{StaticResource Headline}"
+                Text="Teilnehmer Page!" />
+
+
+            <Button
+                x:Name="CounterBtn"
+                
+                HorizontalOptions="Fill"
+                SemanticProperties.Hint="Get to next Page"
+                Text="Next" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
