@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BergNoten.View;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BergNoten
 {
@@ -15,6 +17,7 @@ namespace BergNoten
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddTransient<LadenViewModel>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

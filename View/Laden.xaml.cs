@@ -2,13 +2,40 @@ namespace BergNoten.View;
 
 public partial class Laden : ContentPage
 {
+    LadenViewModel viewModel;
     public Laden()
     {
         InitializeComponent();
+        viewModel = new LadenViewModel();
+        BindingContext = viewModel;
     }
 
-    private async void OnClicked(object sender, EventArgs e)
+    private void OnClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//Pruefungen", true);
+        viewModel.LadeDatei();
+    }
+}
+
+public class LadenViewModel
+{
+    public LadenViewModel()
+    {
+
+    }
+
+    public async void LadeDatei()
+    {
+        var result = await FilePicker.Default.PickAsync(new PickOptions
+        {
+            PickerTitle = "Bitte wählen Sie eine .xls oder .db aus",
+            FileTypes = null
+        });
+
+        if (result != null)
+        {
+
+        }
+
+        return;
     }
 }
