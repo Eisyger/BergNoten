@@ -15,34 +15,33 @@
             Route="Laden" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Notenvergabe" Icon="edit96.png">
+
+        <ShellContent
+            Title="Prüfungen"
+            ContentTemplate="{DataTemplate view:Pruefungen}"
+            Icon="exam96.png"
+            Route="Pruefungen" />
+
+        <ShellContent
+            Title="Teilnehmer"
+            ContentTemplate="{DataTemplate view:Teilnehmer}"
+            Icon="people96.png"
+            Route="Teilnehmer" />
+
+        <ShellContent
+            Title="Stift"
+            ContentTemplate="{DataTemplate view:Noten}"
+            Icon="edit96.png"
+            Route="Noten" />
+    </FlyoutItem>
+
     <FlyoutItem Title="Exportieren" Icon="share96.png">
         <ShellContent
             Title="Exportieren"
             ContentTemplate="{DataTemplate view:Exportieren}"
             Route="Exportieren" />
     </FlyoutItem>
-
-    <FlyoutItem Title="Notenvergabe" Icon="edit96.png">
-        
-        <ShellContent
-            Title="Prüfungen"
-            ContentTemplate="{DataTemplate view:Pruefungen}"
-            Route="Pruefungen" 
-            Icon="exam96.png"/>
-
-        <ShellContent
-            Title="Teilnehmer"
-            ContentTemplate="{DataTemplate view:Teilnehmer}"
-            Route="Teilnehmer"
-            Icon="people96.png"/>
-
-        <ShellContent
-            Title="Stift"
-            ContentTemplate="{DataTemplate view:Noten}"
-            Route="Noten" 
-            Icon="edit96.png"/>
-    </FlyoutItem>
-
 
     <FlyoutItem Title="Einstellungen" Icon="settings96.png">
         <ShellContent

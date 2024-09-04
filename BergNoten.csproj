@@ -72,6 +72,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\Colors_green.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Colors.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Colors_red.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\Einstellungen.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

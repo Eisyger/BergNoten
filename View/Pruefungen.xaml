@@ -3,28 +3,34 @@
     x:Class="BergNoten.View.Pruefungen"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BergNoten.View"
     Title="Pruefungen">
 
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Image
-                Aspect="AspectFit"
-                HeightRequest="185"
-                SemanticProperties.Description="dot net bot in a race car number eight"
-                Source="dotnet_bot.png" />
 
-            <Label
-                SemanticProperties.HeadingLevel="Level1"
-                Style="{StaticResource Headline}"
-                Text="Main Page!" />
+            <ListView x:Name="ListView1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Padding="10" Orientation="Horizontal">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnItemTapped" />
+                                    </StackLayout.GestureRecognizers>
 
+                                    <!--  Füge hier weitere UI-Elemente hinzu, die Teil der ViewCell sind  -->
+                                    <Label Text="{Binding Text}" VerticalOptions="Center" />
 
-            <Button
-                x:Name="CounterBtn"
-                
-                HorizontalOptions="Fill"
-                SemanticProperties.Hint="Get to next Page"
-                Text="Next" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Text="Aktuelle Prüfung:" />
+            <Label Text="{Binding Pruefung}" />
+
         </VerticalStackLayout>
     </ScrollView>
 
