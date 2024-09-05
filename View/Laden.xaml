@@ -5,24 +5,38 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Laden Prüfungsdaten">
 
-    <VerticalStackLayout>
+    <VerticalStackLayout Padding="20,10,20,100">
 
         <!--  Einleitungstext  -->
-        <ScrollView Padding="20">
-            <Label
-                FontSize="Medium"
-                HorizontalOptions="Center"
-                TextColor="DarkSlateGray"
-                VerticalOptions="Center">
-                Wähle die .xls Datei welche du von deinem Lehrgangasleiter bekommen hast.
-                Solltest du bisher keine erhalten haben, so melde dich bei deinem Lehrgangsleiter!
-            </Label>
-        </ScrollView>
+        <Label
+            FontSize="Medium"
+            HorizontalOptions="Center"
+            Text="{Binding Zeile1}"
+            TextColor="DarkSlateGray"
+            VerticalOptions="Center" />
+        <Label
+            FontSize="Medium"
+            HorizontalOptions="Center"
+            Text="{Binding Zeile2}"
+            TextColor="DarkSlateGray"
+            VerticalOptions="Center" />
 
-        <Button
-            Clicked="OnClicked"
-            Text="Suche .xls ..."
-            WidthRequest="200" />
+        <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
+            <Button
+                Margin="0,0,10,0"
+                Clicked="OnClickedLaden"
+                HorizontalOptions="Center"
+                Text="Lade Daten"
+                WidthRequest="150" />
+
+            <Button
+                Margin="10,0,0,0"
+                Clicked="OnClickedNeu"
+                HorizontalOptions="Center"
+                Text="Neu..."
+                WidthRequest="150" />
+
+        </HorizontalStackLayout>
 
     </VerticalStackLayout>
 </ContentPage>

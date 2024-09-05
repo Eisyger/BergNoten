@@ -1,31 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BergNoten.MainPage"
-             Title="MainPage">
+<ContentPage
+    x:Class="BergNoten.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <VerticalStackLayout Padding="30,0" Spacing="25">
             <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
+                HeightRequest="185"
+                SemanticProperties.Description="dot net bot in a race car number eight"
+                Source="dotnet_bot.png" />
 
             <Label
-                Text="Main Page!"
-                Style="{StaticResource  Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-           
+                SemanticProperties.HeadingLevel="Level1"
+                Style="{StaticResource Headline}"
+                Text="Main Page!" />
+
 
             <Button
                 x:Name="CounterBtn"
-                Text="Next" 
-                SemanticProperties.Hint="Get to next Page"
                 Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+                HorizontalOptions="Fill"
+                SemanticProperties.Hint="Get to next Page"
+                Text="Next" />
         </VerticalStackLayout>
     </ScrollView>
 

@@ -12,9 +12,6 @@ namespace BergNoten.Database
     {
         private readonly SQLiteConnection _database;
         private bool _hasData = false;
-        private string _filename = "no_name.db";
-
-        public string Filename { get => _filename; set => _filename = value; }
         public bool HasData => _hasData;
 
         /// <summary>
@@ -24,7 +21,15 @@ namespace BergNoten.Database
         /// <param name="path">Der Pfad zur Datenbankdatei.</param>
         public DatabaseManager(string path)
         {
-            _database = new SQLiteConnection(path);
+            try
+            {
+                _database = new SQLiteConnection(path);
+
+            }
+            catch (Exception ex)
+            {
+                throw new FileNotFoundException($"Der Pfad existiert nicht: {path}", path, ex);
+            }
             _database.CreateTable<Participant>();
             _database.CreateTable<Exam>();
             _database.CreateTable<Grade>();

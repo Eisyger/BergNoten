@@ -1,45 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Bergnoten.Helper;
 
-namespace AusbilderAppViews.Model
+
+/// <summary>
+/// Der Debouncer startet einen Timer, sobald die Mehtode Debounce aufgerufen wird. Sollte der Timer schon laufen 
+/// beginnt dieser wieder von vorne. Erst nachdem der Timer sein Ziel erreicht hat, wird der Task ausgeführt.
+/// </summary>
+/// <param name="delayInMilliseconds"></param>
+class Debouncer(int delayInMilliseconds)
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+    private CancellationTokenSource _cancellationTokenSource = new();
 
-    /// <summary>
-    /// Der Debouncer startet einen Timer, sobald die Mehtode Debounce aufgerufen wird. Sollte der Timer schon laufen 
-    /// beginnt dieser wieder von vorne. Erst nachdem der Timer sein Ziel erreicht hat, wird der Task ausgeführt.
-    /// </summary>
-    /// <param name="delayInMilliseconds"></param>
-    class Debouncer(int delayInMilliseconds)
+    public async Task Debounce(Func<Task> action)
     {
-        private CancellationTokenSource _cancellationTokenSource = new();
+        // Jede vorherige Aufgabe abbrechen
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
+        var token = _cancellationTokenSource.Token;
 
-        public async Task Debounce(Func<Task> action)
+        try
         {
-            // Jede vorherige Aufgabe abbrechen
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource = new CancellationTokenSource();
-            var token = _cancellationTokenSource.Token;
-
-            try
+            // Warte die angegebene Verzögerung
+            await Task.Delay(delayInMilliseconds, token);
+            if (!token.IsCancellationRequested)
             {
-                // Warte die angegebene Verzögerung
-                await Task.Delay(delayInMilliseconds, token);
-                if (!token.IsCancellationRequested)
-                {
-                    await action(); // Führe die Aktion aus
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                // Task wurde abgebrochen, nichts tun
+                await action(); // Führe die Aktion aus
             }
         }
+        catch (TaskCanceledException)
+        {
+            // Task wurde abgebrochen, nichts tun
+        }
     }
-
 }

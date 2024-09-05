@@ -1,5 +1,5 @@
-﻿using BergNoten.View;
-using Microsoft.Extensions.DependencyInjection;
+﻿using BergNoten.Model;
+using BergNoten.View;
 using Microsoft.Extensions.Logging;
 
 namespace BergNoten
@@ -17,7 +17,13 @@ namespace BergNoten
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // AppManager
+            builder.Services.AddSingleton<AppManager>();
+
+            // Lade Page und ViewModel
             builder.Services.AddTransient<LadenViewModel>();
+            builder.Services.AddTransient<Laden>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
