@@ -1,5 +1,6 @@
 ﻿using BergNoten.Model;
 using BergNoten.View;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace BergNoten
@@ -11,6 +12,7 @@ namespace BergNoten
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

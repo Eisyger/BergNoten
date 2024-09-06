@@ -206,14 +206,12 @@ namespace BergNoten.Database
         {
             string filePath = "D:\\C# - MAUI\\AusbilderAppViews\\Model\\NotenPrint.txt";
 
-            using (StreamWriter writer = new StreamWriter(filePath, append: false))
+            using var writer = new StreamWriter(filePath, append: false);
+            var noten = new List<Grade>(_database.Table<Grade>());
+            foreach (var note in noten)
             {
-                List<Grade> noten = new List<Grade>(_database.Table<Grade>());
-                foreach (var note in noten)
-                {
-                    string line = $"{note.Participant.Vorname} {note.Participant.Nachname} - {note.Exam.Name}: {note.Note}";
-                    writer.WriteLine(line);
-                }
+                string line = $"{note.Participant.Vorname} {note.Participant.Nachname} - {note.Exam.Name}: {note.Note}";
+                writer.WriteLine(line);
             }
         }
     }

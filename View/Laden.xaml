@@ -21,22 +21,11 @@
             TextColor="DarkSlateGray"
             VerticalOptions="Center" />
 
-        <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
-            <Button
-                Margin="0,0,10,0"
-                Clicked="OnClickedLaden"
-                HorizontalOptions="Center"
-                Text="Lade Daten"
-                WidthRequest="150" />
-
-            <Button
-                Margin="10,0,0,0"
-                Clicked="OnClickedNeu"
-                HorizontalOptions="Center"
-                Text="Neu..."
-                WidthRequest="150" />
-
-        </HorizontalStackLayout>
-
+        <Button
+            Margin="0,30,0,0"
+            Clicked="OnClickedLaden"
+            HorizontalOptions="Center"
+            Text="Daten suchen..."
+            WidthRequest="150" />
     </VerticalStackLayout>
 </ContentPage>

@@ -7,20 +7,65 @@ namespace BergNoten.Helper;
 /// </summary>
 public class Config
 {
+    private readonly object _fileLock = new();
+
+    private string _pathToData;
+    private string _fileName;
+    private string _pathToConfig;
+    private string _username;
+
     /// <summary>
-    /// Der Pfad zur Datenbank-Datei.
+    /// Der Pfad zur Datei.
     /// </summary>
-    public string PathToData { get; set; } = string.Empty;
+    public string PathToData
+    {
+        get => _pathToData;
+        set
+        {
+            _pathToData = value;
+            Task.Run(() => UpdateSettings());
+        }
+    }
+
+    /// <summary>
+    /// Der Name der Datei.
+    /// </summary>
+    public string FileName
+    {
+        get => _fileName;
+        set
+        {
+            _fileName = value;
+            Task.Run(() => UpdateSettings());
+        }
+    }
 
     /// <summary>
     /// Der Pfad zum Konfigurationsverzeichnis.
     /// </summary>
-    public string PathToConfig { get; set; } = string.Empty;
+    public string PathToConfig
+    {
+        get => _pathToConfig;
+        set
+        {
+            _pathToConfig = value;
+            Task.Run(() => UpdateSettings());
+        }
+    }
 
     /// <summary>
     /// Der Benutzername.
     /// </summary>
-    public string Username { get; set; } = string.Empty;
+    public string Username
+    {
+        get => _username;
+        set
+        {
+            _username = value;
+            Task.Run(() => UpdateSettings());
+        }
+    }
+
 
 
     /// <summary>
@@ -31,33 +76,41 @@ public class Config
     /// <param name="pathToConfig">Der Pfad zum Konfigurationsverzeichnis.</param>
     public Config(string pathToConfig)
     {
+        _pathToData = string.Empty;
+        _fileName = string.Empty;
+        _pathToConfig = string.Empty;
+        _username = string.Empty;
+
         PathToConfig = pathToConfig;
-        LoadSettingsFromJson(pathToConfig);
+        Task.Run(() => LoadSettingsFromJson());
     }
 
     /// <summary>
     /// Speichert die aktuellen Konfigurationseinstellungen in einer JSON-Datei.
     /// </summary>
-    public void SaveSettingsToJson()
+    public void UpdateSettings()
     {
         // Erstellt ein anonymes Objekt mit den aktuellen Konfigurationseinstellungen
         var settings = new
         {
-            PathToDatabase = PathToData,
-            PathToConfig = PathToConfig,
-            Username = Username
+            PathToData,
+            PathToConfig,
+            Username,
+            FileName
         };
 
-        // Serialisiert das Einstellungen-Objekt zu JSON und speichert es in einer Datei
-        string json = JsonConvert.SerializeObject(settings);
-        File.WriteAllText(Path.Combine(PathToConfig, "config.json"), json);
+        lock (_fileLock)
+        {
+            // Serialisiert das Einstellungen-Objekt zu JSON und speichert es in einer Datei
+            string json = JsonConvert.SerializeObject(settings);
+            File.WriteAllTextAsync(Path.Combine(PathToConfig, "config.json"), json);
+        }
     }
 
     /// <summary>
     /// Lädt die Konfigurationseinstellungen aus einer JSON-Datei.
     /// </summary>
-    /// <param name="pathToConfig">Der Pfad zum Konfigurationsverzeichnis.</param>
-    private void LoadSettingsFromJson(string pathToConfig)
+    private void LoadSettingsFromJson()
     {
         string path = Path.Combine(PathToConfig, "config.json");
 
@@ -67,23 +120,29 @@ public class Config
 
         try
         {
-            // Liest den Inhalt der Konfigurationsdatei
-            string json = File.ReadAllText(path);
+            string json;
 
+            lock (_fileLock)
+            {
+                // Liest den Inhalt der Konfigurationsdatei
+                json = File.ReadAllText(path);
+            }
             // Deserialisiert die JSON-Daten in ein anonymes Objekt
             var settings = JsonConvert.DeserializeAnonymousType(json, new
             {
-                PathToDatabase = "",
+                PathToData = "",
                 PathToConfig = "",
-                Username = ""
+                Username = "",
+                FileName = ""
             }
                 );
 
             // Weist die Werte aus der Konfigurationsdatei den entsprechenden Eigenschaften zu
-            PathToData = settings.PathToDatabase;
-            Username = settings.Username;
-            PathToData = settings.PathToDatabase;
-            PathToConfig = settings.PathToConfig;
+            PathToData = settings?.PathToData ?? string.Empty;
+            PathToData = settings?.PathToData ?? string.Empty;
+            Username = settings?.Username ?? string.Empty;
+            FileName = settings?.FileName ?? string.Empty;
+
         }
         catch (Exception ex)
         {

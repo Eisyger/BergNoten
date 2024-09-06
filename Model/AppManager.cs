@@ -6,8 +6,6 @@ namespace BergNoten.Model
 {
     public class AppManager
     {
-        private static readonly object _lock = new();
-        private static AppManager? _instance;
         private DatabaseManager _data;
         private Config _config;
 

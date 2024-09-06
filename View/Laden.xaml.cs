@@ -16,13 +16,7 @@ public partial class Laden : ContentPage
 
     private void OnClickedLaden(object sender, EventArgs e)
     {
-        viewModel.Zeile1 = "asdfsdf";
-    }
-
-    private void OnClickedNeu(object sender, EventArgs e)
-    {
         viewModel.SucheDatei();
-
     }
 }
 
@@ -63,29 +57,34 @@ public class LadenViewModel : INotifyPropertyChanged
         {
             _zeile1 = "Keine Daten geladen!";
             _zeile2 = string.Empty;
-            HasData = false;
         }
         else
         {
-            _zeile1 = "Vorhandene Daten:";
-            _zeile2 = _manager.Configurations.PathToData;
-            HasData = true;
+            _zeile1 = "Daten geladen aus:";
+            _zeile2 = _manager.Configurations.FileName;
         }
     }
 
     public async void SucheDatei()
     {
-        var result = await FilePicker.Default.PickAsync(new PickOptions
-        {
-            PickerTitle = "Bitte wählen Sie eine .xls oder .db aus",
-            FileTypes = null
-        });
+        var result = await FilePicker.Default.PickAsync();
 
         if (result != null)
         {
+            // Daten in UI anzeigen
+            Zeile1 = "Daten geladen aus:";
+            Zeile2 = result.FileName;
 
+            // Config aktuallisieren
+            _manager.Configurations.PathToData = result.FullPath;
+            _manager.Configurations.FileName = result.FileName;
         }
         return;
+    }
+
+    public void LadeDatei()
+    {
+        // TODO Datei Laden
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -93,4 +92,5 @@ public class LadenViewModel : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
+
 }
