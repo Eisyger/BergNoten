@@ -8,7 +8,7 @@
     Title="BergNoten"
     Shell.FlyoutBehavior="Flyout">
 
-    <FlyoutItem Title="Laden" Icon="plus96.png">
+    <FlyoutItem Title="Daten Laden..." Icon="plus96.png">
         <ShellContent
             Title="Laden"
             ContentTemplate="{DataTemplate view:Laden}"
@@ -30,13 +30,13 @@
             Route="Teilnehmer" />
 
         <ShellContent
-            Title="Stift"
+            Title="Noten"
             ContentTemplate="{DataTemplate view:Noten}"
             Icon="edit96.png"
             Route="Noten" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Exportieren" Icon="share96.png">
+    <FlyoutItem Title="Daten Exportieren..." Icon="share96.png">
         <ShellContent
             Title="Exportieren"
             ContentTemplate="{DataTemplate view:Exportieren}"
@@ -48,6 +48,10 @@
             Title="Einstellungen"
             ContentTemplate="{DataTemplate view:Einstellungen}"
             Route="Einstellungen" />
+        <ShellContent
+            Title="User"
+            ContentTemplate="{DataTemplate view:Username}"
+            Route="Username" />
     </FlyoutItem>
 
 

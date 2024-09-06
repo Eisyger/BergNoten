@@ -7,8 +7,6 @@ namespace BergNoten.Helper;
 /// </summary>
 public class Config
 {
-    private readonly object _fileLock = new();
-
     private string _pathToData;
     private string _fileName;
     private string _pathToConfig;
@@ -23,7 +21,7 @@ public class Config
         set
         {
             _pathToData = value;
-            Task.Run(() => UpdateSettings());
+            UpdateSettings();
         }
     }
 
@@ -36,7 +34,7 @@ public class Config
         set
         {
             _fileName = value;
-            Task.Run(() => UpdateSettings());
+            UpdateSettings();
         }
     }
 
@@ -49,7 +47,7 @@ public class Config
         set
         {
             _pathToConfig = value;
-            Task.Run(() => UpdateSettings());
+            UpdateSettings();
         }
     }
 
@@ -62,11 +60,9 @@ public class Config
         set
         {
             _username = value;
-            Task.Run(() => UpdateSettings());
+            UpdateSettings();
         }
     }
-
-
 
     /// <summary>
     /// Erstellt eine neue Konfigurationsinstanz.
@@ -81,8 +77,8 @@ public class Config
         _pathToConfig = string.Empty;
         _username = string.Empty;
 
-        PathToConfig = pathToConfig;
-        Task.Run(() => LoadSettingsFromJson());
+        _pathToConfig = pathToConfig;
+        LoadSettingsFromJson();
     }
 
     /// <summary>
@@ -98,13 +94,9 @@ public class Config
             Username,
             FileName
         };
-
-        lock (_fileLock)
-        {
-            // Serialisiert das Einstellungen-Objekt zu JSON und speichert es in einer Datei
-            string json = JsonConvert.SerializeObject(settings);
-            File.WriteAllTextAsync(Path.Combine(PathToConfig, "config.json"), json);
-        }
+        // Serialisiert das Einstellungen-Objekt zu JSON und speichert es in einer Datei
+        string json = JsonConvert.SerializeObject(settings);
+        File.WriteAllText(PathToConfig, json);
     }
 
     /// <summary>
@@ -112,21 +104,15 @@ public class Config
     /// </summary>
     private void LoadSettingsFromJson()
     {
-        string path = Path.Combine(PathToConfig, "config.json");
-
         // Überprüft, ob die Konfigurationsdatei existiert
-        if (!File.Exists(path))
+        if (!File.Exists(PathToConfig))
         { return; }
 
         try
         {
-            string json;
+            // Liest den Inhalt der Konfigurationsdatei
+            var json = File.ReadAllText(PathToConfig);
 
-            lock (_fileLock)
-            {
-                // Liest den Inhalt der Konfigurationsdatei
-                json = File.ReadAllText(path);
-            }
             // Deserialisiert die JSON-Daten in ein anonymes Objekt
             var settings = JsonConvert.DeserializeAnonymousType(json, new
             {
@@ -138,11 +124,10 @@ public class Config
                 );
 
             // Weist die Werte aus der Konfigurationsdatei den entsprechenden Eigenschaften zu
-            PathToData = settings?.PathToData ?? string.Empty;
-            PathToData = settings?.PathToData ?? string.Empty;
-            Username = settings?.Username ?? string.Empty;
-            FileName = settings?.FileName ?? string.Empty;
-
+            _pathToData = settings?.PathToData ?? string.Empty;
+            _pathToConfig = settings?.PathToConfig ?? string.Empty;
+            _username = settings?.Username ?? string.Empty;
+            _fileName = settings?.FileName ?? string.Empty;
         }
         catch (Exception ex)
         {

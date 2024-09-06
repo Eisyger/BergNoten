@@ -107,10 +107,13 @@
 	  <MauiXaml Update="View\Teilnehmer.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\Username.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Misc\" />
+	  <Folder Include="Test\" />
 	</ItemGroup>
 
 </Project>

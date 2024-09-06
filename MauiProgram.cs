@@ -22,7 +22,10 @@ namespace BergNoten
             // AppManager
             builder.Services.AddSingleton<AppManager>();
 
-            // Lade Page und ViewModel
+            // Username View
+            builder.Services.AddTransient<Username>();
+
+            // Laden View und ViewModel
             builder.Services.AddTransient<LadenViewModel>();
             builder.Services.AddTransient<Laden>();
 

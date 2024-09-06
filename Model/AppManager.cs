@@ -28,19 +28,12 @@ namespace BergNoten.Model
             string pathDatabase;
             string pathConfig;
 
-            //TODO Die Pfade später anpassen relativ zum jeweiligem Gerät.
-            if (OperatingSystem.IsWindows())
-            {
-                pathDatabase = "D:\\BergNoten\\BergNoten\\Misc\\data.db";
-                pathConfig = "D:\\BergNoten\\BergNoten\\Misc";
-            }
-            else
-            {
-                pathDatabase = Path.Combine(FileSystem.AppDataDirectory, "data.db");
-                File.Delete(pathDatabase);
+            pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory, "data.db");
+            pathConfig = Path.Combine(FileSystem.Current.AppDataDirectory, "config.json");
 
-                pathConfig = FileSystem.AppDataDirectory;
-            }
+            // Solten Fehler auftreten, lösche die Dateien
+            //File.Delete(pathConfig);
+            //File.Delete(pathDatabase);
 
 
             // Initialisiere die Config, ist eine Config vorhanden wird sie geladen, wenn nicht wird eine neue erstellt.

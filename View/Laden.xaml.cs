@@ -78,6 +78,9 @@ public class LadenViewModel : INotifyPropertyChanged
             // Config aktuallisieren
             _manager.Configurations.PathToData = result.FullPath;
             _manager.Configurations.FileName = result.FileName;
+
+            // Lade die aktuellen Daten in die Datenbank
+            // TODO Laden der Daten implementieren
         }
         return;
     }
