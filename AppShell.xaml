@@ -52,6 +52,10 @@
             Title="User"
             ContentTemplate="{DataTemplate view:Username}"
             Route="Username" />
+        <ShellContent
+            Title="Mustervorlage"
+            ContentTemplate="{DataTemplate view:Mustervorlage}"
+            Route="Mustervorlage" />
     </FlyoutItem>
 
 

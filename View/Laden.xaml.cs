@@ -1,3 +1,4 @@
+using BergNoten.Helper;
 using BergNoten.Model;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,6 +8,7 @@ namespace BergNoten.View;
 public partial class Laden : ContentPage
 {
     LadenViewModel viewModel;
+
     public Laden(LadenViewModel vm)
     {
         InitializeComponent();
@@ -14,9 +16,17 @@ public partial class Laden : ContentPage
         BindingContext = viewModel;
     }
 
-    private void OnClickedLaden(object sender, EventArgs e)
+    private async void OnClickedLaden(object sender, EventArgs e)
     {
-        viewModel.SucheDatei();
+        await viewModel.SucheDatei();
+        if (viewModel.HasData)
+        {
+            await Shell.Current.GoToAsync("//Teilnehmer");
+        }
+        else
+        {
+            await DisplayAlert("Fehler", "Fehlerhafte Excel Datei", "OK");
+        }
     }
 }
 
@@ -47,7 +57,29 @@ public class LadenViewModel : INotifyPropertyChanged
         _zeile1 = string.Empty;
         _zeile2 = string.Empty;
 
+        HasData = false;
+
         LadeConfig();
+    }
+
+    public async Task SucheDatei()
+    {
+        var result = await FilePicker.Default.PickAsync();
+
+        if (result != null)
+        {
+            // Daten in UI anzeigen
+            Zeile1 = "Daten geladen aus:";
+            Zeile2 = result.FileName;
+
+            // Config aktuallisieren
+            _manager.Configurations.PathToData = result.FullPath;
+            _manager.Configurations.FileName = result.FileName;
+
+            // Lade die aktuellen Daten in die Datenbank            
+            LadeDatei();
+        }
+        return;
     }
 
     private void LadeConfig()
@@ -65,32 +97,24 @@ public class LadenViewModel : INotifyPropertyChanged
         }
     }
 
-    public async void SucheDatei()
+    private void LadeDatei()
     {
-        var result = await FilePicker.Default.PickAsync();
-
-        if (result != null)
+        HasData = true;
+        try
         {
-            // Daten in UI anzeigen
-            Zeile1 = "Daten geladen aus:";
-            Zeile2 = result.FileName;
-
-            // Config aktuallisieren
-            _manager.Configurations.PathToData = result.FullPath;
-            _manager.Configurations.FileName = result.FileName;
-
-            // Lade die aktuellen Daten in die Datenbank
             // TODO Laden der Daten implementieren
+            var data = IOExcel.ImportFromExcel(_manager.Configurations.PathToData);
+            _manager.Database.AddParticipants(data[0]);
+            _manager.Database.AddExams(data[1]);
         }
-        return;
-    }
-
-    public void LadeDatei()
-    {
-        // TODO Datei Laden
+        catch (Exception e)
+        {
+            HasData = false;
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
     protected void OnPropertyChaged([CallerMemberName] string name = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

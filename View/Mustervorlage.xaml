@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BergNoten.View.Mustervorlage"
-             Title="Mustervorlage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+<ContentPage
+    x:Class="BergNoten.View.Mustervorlage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Mustervorlage">
+    <VerticalStackLayout Padding="20,20,20,20">
+        <Label HorizontalOptions="Center" VerticalOptions="Center">
+            Exportiere eine Excel Vorlage an einen ausgewählten Speicherort.
+            Hier kann dann die Teilnehmerliste und die Prüfungen in Excel
+            ergänzt werden. Wenn ihr fertig seid, teilt diese Excel-Datei
+            mit eurem Team. Das Dateiformat .xls muss beibehalten werden!"
+        </Label>
+
+        <Button
+            Margin="0,50,0,0"
+            Clicked="OnClicked"
+            Text="Mustervorlage erstellen" />
+
     </VerticalStackLayout>
 </ContentPage>

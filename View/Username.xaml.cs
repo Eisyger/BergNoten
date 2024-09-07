@@ -24,13 +24,13 @@ public partial class Username : ContentPage
         nameButton.IsEnabled = !string.IsNullOrWhiteSpace(e.NewTextValue);
     }
 
-    private void OnNameButtonClicked(object sender, EventArgs e)
+    private async void OnNameButtonClicked(object sender, EventArgs e)
     {
         _manager.Configurations.Username = nameEntry.Text;
-        NextPage();
+        await NextPage();
     }
 
-    private async void NextPage()
+    private async Task NextPage()
     {
         await Shell.Current.GoToAsync("//Laden");
     }
