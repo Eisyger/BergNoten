@@ -6,17 +6,17 @@ namespace BergNoten.Model
 {
     public class AppManager
     {
-        private DatabaseManager _data;
+        private DatabaseManager? _data;
         private Config _config;
 
-        public DatabaseManager Database { get { return _data; } set { _data = value; } }
+        public DatabaseManager? Database { get { return _data; } set { _data = value; } }
         public Config Configurations { get { return _config; } set { _config = value; } }
 
         public Exam? CurrentExam { get; set; }
-        public List<Exam> Exams { get; set; }
+        public List<Exam>? Exams { get; set; }
         public Participant? CurrentParticipant { get; set; }
 
-        public List<Participant> Participants { get; set; }
+        public List<Participant>? Participants { get; set; }
         public int CurrentShuffleIndex { get; set; }
 
         private int[] _shuffleIndex;
@@ -25,31 +25,18 @@ namespace BergNoten.Model
 
         public AppManager()
         {
-            string pathDatabase;
-            string pathConfig;
-            
-            // Erstellt eine default Datenbank, sobald Daten aus einer .xls gealden werden wird eine neue Datenbank erstellt.            
-            CreateDatabase("default.db", isDefault:true)
-            
-            pathConfig = Path.Combine(FileSystem.Current.AppDataDirectory, "config.json");
-
-            // Solten Fehler auftreten, lösche die Dateien
-            //File.Delete(pathConfig);
-            //File.Delete(pathDatabase);
-
+            string pathConfig = Path.Combine(FileSystem.Current.AppDataDirectory, "config.json");
 
             // Initialisiere die Config, ist eine Config vorhanden wird sie geladen, wenn nicht wird eine neue erstellt.
             // In der Config werden alle Eigenschaften initialisiert, oder mit Werten aus der Datei überladen.
             _config = new Config(pathConfig);
 
-            _data = new DatabaseManager(pathDatabase);
+            // Erstellt eine default Datenbank, sobald Daten aus einer .xls gealden werden wird eine neue Datenbank erstellt.                        
+            CreateDatabase("default.db", isDefault: true);
 
-            Participants = _data.GetParticipants();
-            Exams = _data.GetExams();
-
-
-            _shuffleIndex = new int[Participants.Count];
-            for (int i = 0; i < Participants.Count; i++)
+            // Initialisere das ShuffleIndex Array
+            _shuffleIndex = new int[Participants?.Count ?? 0];
+            for (int i = 0; i < (Participants?.Count ?? 0); i++)
             {
                 _shuffleIndex[i] = i;
             }
@@ -57,6 +44,8 @@ namespace BergNoten.Model
 
         public void CreateDatabase(string name, bool isDefault = false)
         {
+            string pathDatabase;
+
             if (isDefault)
             {
                 // Default Database erstellen ohne Datum am Ende.
@@ -64,14 +53,29 @@ namespace BergNoten.Model
             }
             else
             {
-                // TODO Datum am ende des Dateinamens hinzufügen YY-MM-DD_hh_mm
-                pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory, name);
+                // Datum am Ende des Dateinamens hinzufügen
+                pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory,
+                    name.Split(".")[0] + " " + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + ".db");
             }
+
+            // Erstelle die Database
+            _data = new DatabaseManager(pathDatabase);
+
+            // Daten laden aus Excel
+            var dataFromExcel = IOExcel.ImportFromExcel(_config.PathToData);
+
+            // Extrahieren der Daten und einfügen in die Table der Database
+            _data.AddParticipants(dataFromExcel[0]);
+            _data.AddExams(dataFromExcel[1]);
+
+            // Setze die Eigenschaften mit den Database Daten
+            Participants = _data.GetParticipants();
+            Exams = _data.GetExams();
         }
 
         public void WriteGrade(string note, string bemerkung)
         {
-            _data.AddNote(new Grade(CurrentParticipant, CurrentExam, note, bemerkung));
+            _data?.AddNote(new Grade(CurrentParticipant, CurrentExam, note, bemerkung));
         }
         public Grade GetGrade()
         {

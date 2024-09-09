@@ -1,3 +1,4 @@
+using BergNoten.Helper;
 using Microsoft.Maui;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -47,6 +48,8 @@ public partial class Pruefungen : ContentPage
         ListView1.SelectedItem = item;
 
         Pruefung = item.Text;
+
+        DatabaseGarbageCollection.Clean(7);
     }
 
 }

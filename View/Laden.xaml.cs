@@ -1,4 +1,5 @@
 using BergNoten.Helper;
+using BergNoten.Interfaces;
 using BergNoten.Model;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -21,7 +22,7 @@ public partial class Laden : ContentPage
         await viewModel.SucheDatei();
         if (viewModel.HasData)
         {
-            await Shell.Current.GoToAsync("//Teilnehmer");
+            await Shell.Current.GoToAsync("//Pruefungen");
         }
         else
         {
@@ -92,6 +93,7 @@ public class LadenViewModel : INotifyPropertyChanged
         }
         else
         {
+            LadeDatei();
             _zeile1 = "Daten geladen aus:";
             _zeile2 = _manager.Configurations.FileName;
         }
@@ -104,13 +106,6 @@ public class LadenViewModel : INotifyPropertyChanged
         {
             // Neue Datenbank erstellen
             _manager.CreateDatabase(_manager.Configurations.FileName);
-
-            // Daten laden
-            var data = IOExcel.ImportFromExcel(_manager.Configurations.PathToData);
-            
-            // Daten in neu erstellter Datenbank speichern
-            _manager.Database.AddParticipants(data[0]);
-            _manager.Database.AddExams(data[1]);
         }
         catch (Exception e)
         {
