@@ -27,8 +27,10 @@ namespace BergNoten.Model
         {
             string pathDatabase;
             string pathConfig;
-
-            pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory, "data.db");
+            
+            // Erstellt eine default Datenbank, sobald Daten aus einer .xls gealden werden wird eine neue Datenbank erstellt.            
+            CreateDatabase("default.db", isDefault:true)
+            
             pathConfig = Path.Combine(FileSystem.Current.AppDataDirectory, "config.json");
 
             // Solten Fehler auftreten, lösche die Dateien
@@ -50,6 +52,20 @@ namespace BergNoten.Model
             for (int i = 0; i < Participants.Count; i++)
             {
                 _shuffleIndex[i] = i;
+            }
+        }
+
+        public void CreateDatabase(string name, bool isDefault = false)
+        {
+            if (isDefault)
+            {
+                // Default Database erstellen ohne Datum am Ende.
+                pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory, name);
+            }
+            else
+            {
+                // TODO Datum am ende des Dateinamens hinzufügen YY-MM-DD_hh_mm
+                pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory, name);
             }
         }
 
