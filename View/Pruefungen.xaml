@@ -6,32 +6,7 @@
     xmlns:local="clr-namespace:BergNoten.View"
     Title="Pruefungen">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30,0" Spacing="25">
-
-            <ListView x:Name="ListView1">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Padding="10" Orientation="Horizontal">
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnItemTapped" />
-                                    </StackLayout.GestureRecognizers>
-
-                                    <!--  Füge hier weitere UI-Elemente hinzu, die Teil der ViewCell sind  -->
-                                    <Label Text="{Binding Text}" VerticalOptions="Center" />
-
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Label Text="Aktuelle Prüfung:" />
-            <Label Text="{Binding Pruefung}" />
-
-        </VerticalStackLayout>
-    </ScrollView>
-
+    <VerticalStackLayout Margin="20" Spacing="20">
+      
+    </VerticalStackLayout>
 </ContentPage>

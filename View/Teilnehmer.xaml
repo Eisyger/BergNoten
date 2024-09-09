@@ -1,28 +1,66 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BergNoten.View.Teilnehmer"
-             Title="Teilnehmer">
-    <ScrollView>
-        <VerticalStackLayout Padding="30,0" Spacing="25">
-            <Image
-                Aspect="AspectFit"
-                HeightRequest="185"
-                Source="teilnehmer.png" />
+<ContentPage
+    x:Class="BergNoten.View.Teilnehmer"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Teilnehmer">
 
+    <VerticalStackLayout Margin="20" Spacing="20">
+        <!--  Überschrift  -->
+        <Label
+            Margin="0,0,0,20"
+            FontAttributes="Bold"
+            FontSize="Header"
+            HorizontalOptions="Center"
+            Text="{Binding ExamName}"
+            TextColor="#2C3E50"
+            VerticalOptions="Center" />
+
+        <!--  Einleitungstext  -->
+        <ScrollView>
             <Label
-                SemanticProperties.HeadingLevel="Level1"
-                Style="{StaticResource Headline}"
-                Text="Teilnehmer Page!" />
+                x:Name="HeadText"
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Text="Teilnehmerauswahl:"
+                TextColor="#7F8C8D"
+                VerticalOptions="Center" />
+        </ScrollView>
 
+        <!--  Auflistung der Prüflinge  -->
+        <ScrollView>
+            <CollectionView
+                x:Name="ParticipantsListView"
+                SelectionChanged="OnSelectionChanged"
+                SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="5"
+                            Padding="10"
+                            BackgroundColor="#FFFFFF"
+                            BorderColor="#BDBDBD"
+                            CornerRadius="10">
+                            <StackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="Small"
+                                    Text="{Binding ShowIndex}"
+                                    TextColor="#2C3E50" />
+                                <Label
+                                    FontSize="Medium"
+                                    Text="{Binding Vorname}"
+                                    TextColor="#2C3E50" />
+                                <Label
+                                    FontSize="Small"
+                                    Text="{Binding Nachname}"
+                                    TextColor="#2C3E50" />
 
-            <Button
-                x:Name="CounterBtn"
-                
-                HorizontalOptions="Fill"
-                SemanticProperties.Hint="Get to next Page"
-                Text="Next" />
-        </VerticalStackLayout>
-    </ScrollView>
-
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </VerticalStackLayout>
 </ContentPage>

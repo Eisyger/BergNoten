@@ -8,19 +8,19 @@ namespace BergNoten.View;
 
 public partial class Laden : ContentPage
 {
-    LadenViewModel viewModel;
+    private LadenViewModel _viewModel;
 
     public Laden(LadenViewModel vm)
     {
         InitializeComponent();
-        viewModel = vm;
-        BindingContext = viewModel;
+        _viewModel = vm;
+        BindingContext = _viewModel;
     }
 
     private async void OnClickedLaden(object sender, EventArgs e)
     {
-        await viewModel.SucheDatei();
-        if (viewModel.HasData)
+        await _viewModel.SucheDatei();
+        if (_viewModel.HasData)
         {
             await Shell.Current.GoToAsync("//Pruefungen");
         }

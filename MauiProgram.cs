@@ -25,9 +25,17 @@ namespace BergNoten
             // Username View
             builder.Services.AddTransient<Username>();
 
-            // Laden View und ViewModel
+            // Laden ViewModel und View
             builder.Services.AddTransient<LadenViewModel>();
             builder.Services.AddTransient<Laden>();
+
+            //Prüfungen ViewModel und View
+            builder.Services.AddTransient<PruefungenViewModel>();
+            builder.Services.AddTransient<Pruefungen>();
+
+            //Teilnehmer ViewModel und View
+            builder.Services.AddTransient<TeilnehmerViewModel>();
+            builder.Services.AddTransient<Teilnehmer>();
 
 #if DEBUG
             builder.Logging.AddDebug();

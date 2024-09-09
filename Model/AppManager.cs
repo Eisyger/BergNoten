@@ -25,6 +25,9 @@ namespace BergNoten.Model
 
         public AppManager()
         {
+            //Lösche alte Datenbanken
+            DatabaseGarbageCollection.Clean(7);
+
             string pathConfig = Path.Combine(FileSystem.Current.AppDataDirectory, "config.json");
 
             // Initialisiere die Config, ist eine Config vorhanden wird sie geladen, wenn nicht wird eine neue erstellt.
@@ -71,6 +74,9 @@ namespace BergNoten.Model
             // Setze die Eigenschaften mit den Database Daten
             Participants = _data.GetParticipants();
             Exams = _data.GetExams();
+
+            CurrentParticipant = Participants?[0];
+            CurrentExam = Exams?[0];
         }
 
         public void WriteGrade(string note, string bemerkung)
