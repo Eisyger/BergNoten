@@ -25,7 +25,7 @@ public partial class Laden : ContentPage
         }
         else
         {
-            await DisplayAlert("Fehler", "Fehlerhafte Excel Datei", "OK");
+            await DisplayAlert("Fehler", "Fehlerhafte Excel Datei.", "OK");
         }
     }
 }
@@ -102,8 +102,9 @@ public class LadenViewModel : INotifyPropertyChanged
         HasData = true;
         try
         {
-            // TODO Laden der Daten implementieren
+            // TODO Neue Datenbank erstellen, die default datebank löschen!
             var data = IOExcel.ImportFromExcel(_manager.Configurations.PathToData);
+            
             _manager.Database.AddParticipants(data[0]);
             _manager.Database.AddExams(data[1]);
         }
