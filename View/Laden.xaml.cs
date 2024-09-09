@@ -102,9 +102,13 @@ public class LadenViewModel : INotifyPropertyChanged
         HasData = true;
         try
         {
-            // TODO Neue Datenbank erstellen, die default datebank löschen!
+            // Neue Datenbank erstellen
+            _manager.CreateDatabase(_manager.Configurations.FileName);
+
+            // Daten laden
             var data = IOExcel.ImportFromExcel(_manager.Configurations.PathToData);
             
+            // Daten in neu erstellter Datenbank speichern
             _manager.Database.AddParticipants(data[0]);
             _manager.Database.AddExams(data[1]);
         }
