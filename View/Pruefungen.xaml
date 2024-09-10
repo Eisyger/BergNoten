@@ -3,10 +3,63 @@
     x:Class="BergNoten.View.Pruefungen"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:BergNoten.View"
-    Title="Pruefungen">
+    Title="Prüfungsfahrten"
+    BackgroundColor="#F5F5F5">
 
-    <VerticalStackLayout Margin="20" Spacing="20">
-      
-    </VerticalStackLayout>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Einleitungstext  -->
+        <Label
+            x:Name="HeadText"
+            Grid.Row="0"
+            Margin="0,0,0,20"
+            FontSize="Medium"
+            HorizontalOptions="Center"
+            Text="Welche Prüfungsfahrt soll benotet werden?"
+            TextColor="#7F8C8D"
+            VerticalOptions="Center" />
+
+
+        <!--  Auflistung der Prüfungsfahrten  -->
+        <CollectionView
+            x:Name="ExamsListView"
+            Grid.Row="1"
+            SelectionMode="Single"
+            VerticalScrollBarVisibility="Always">
+            <CollectionView.ItemTemplate>            
+            <DataTemplate>                    
+                    <Frame                        
+                        Margin="5"
+                        Padding="10"
+                        BackgroundColor="#FFFFFF"
+                        BorderColor="#BDBDBD"
+                        CornerRadius="10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding}"/>
+                        </Frame.GestureRecognizers>
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="{Binding Name}"
+                                TextColor="#2C3E50" />
+                            <Label
+                                FontSize="Small"
+                                Text="{Binding Beschreibung}"
+                                TextColor="#2C3E50" />
+                            <Label
+                                FontSize="Small"
+                                Text="1 von 39 benotet..."
+                                TextColor="#7F8C8D" />
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>
