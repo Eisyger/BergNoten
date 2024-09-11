@@ -31,16 +31,16 @@
             Grid.Row="1"
             SelectionMode="Single"
             VerticalScrollBarVisibility="Always">
-            <CollectionView.ItemTemplate>            
-            <DataTemplate>                    
-                    <Frame                        
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
                         Margin="5"
                         Padding="10"
                         BackgroundColor="#FFFFFF"
                         BorderColor="#BDBDBD"
                         CornerRadius="10">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding}"/>
+                            <TapGestureRecognizer CommandParameter="{Binding}" Tapped="OnItemTapped" />
                         </Frame.GestureRecognizers>
                         <StackLayout>
                             <Label

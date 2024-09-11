@@ -39,7 +39,7 @@
         <!--  Auflistung der Prüflinge (CollectionView)  -->
         <CollectionView
             x:Name="ParticipantsListView"
-            Grid.Row="3"            
+            Grid.Row="3"
             SelectionMode="Single"
             VerticalScrollBarVisibility="Always">
             <CollectionView.ItemTemplate>
@@ -51,7 +51,7 @@
                         BorderColor="#BDBDBD"
                         CornerRadius="10">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnItemTapped" CommandParameter="{Binding}"/>
+                            <TapGestureRecognizer CommandParameter="{Binding}" Tapped="OnItemTapped" />
                         </Frame.GestureRecognizers>
                         <Grid Margin="0">
                             <Grid.RowDefinitions>

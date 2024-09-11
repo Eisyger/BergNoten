@@ -8,9 +8,6 @@ namespace BergNoten.Helper
     {
         public static void Run(string filePath, bool saveGrades)
         {
-            // TODO Hier noch mehrere Teilnehmer erstellen!
-
-
             // Erstellen von Teilnehmern
             var participants = new List<Participant>
             {

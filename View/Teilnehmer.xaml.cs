@@ -15,8 +15,6 @@ public partial class Teilnehmer : ContentPage
 
         BindingContext = _viewModel;
         ParticipantsListView.ItemsSource = _viewModel.Participants;
-
-        // TODO Warum geht die Scrollview nicht in Windows?
     }
 
     private async void OnItemTapped(object sender, TappedEventArgs e)

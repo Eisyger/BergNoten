@@ -37,6 +37,10 @@ namespace BergNoten
             builder.Services.AddTransient<TeilnehmerViewModel>();
             builder.Services.AddTransient<Teilnehmer>();
 
+            //Noten ViewModel und View
+            builder.Services.AddTransient<NotenViewModel>();
+            builder.Services.AddTransient<Noten>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
