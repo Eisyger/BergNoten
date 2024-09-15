@@ -1,5 +1,6 @@
 using Bergnoten.Helper;
 using BergNoten.Model;
+using Microsoft.Maui.Layouts;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -17,6 +18,7 @@ public partial class Noten : ContentPage
         Refresh();
 
     }
+
     private void Refresh()
     {
         _viewModel = new NotenViewModel(_manager);
@@ -74,6 +76,7 @@ public partial class Noten : ContentPage
     {
         // Navigiere durch die ShuffleIndicies
         _viewModel.Next(-1);
+
         await this.Content.FadeTo(0, 500);
         Refresh();
         await this.Content.FadeTo(1, 500);
@@ -84,11 +87,12 @@ public partial class Noten : ContentPage
     {
         // Navigiere durch die ShuffleIndicies
         _viewModel.Next(1);
+
         await this.Content.FadeTo(0, 500);
         Refresh();
         await this.Content.FadeTo(1, 500);
-
     }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -102,6 +106,48 @@ public class NotenViewModel : INotifyPropertyChanged
     private AppManager _manager;
     private Grade _grade;
     private Debouncer _bouncer;
+
+    private bool _hasNext;
+    public bool HasNext
+    {
+        get => _hasNext;
+        set
+        {
+            if (_hasNext != value)
+            {
+                _hasNext = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private bool _hasBefore;
+    public bool HasBefore
+    {
+        get => _hasBefore;
+        set
+        {
+            if (_hasBefore != value)
+            {
+                _hasBefore = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string? _pruefungsName;
+    public string? PruefungsName
+    {
+        get => _pruefungsName;
+        set
+        {
+            if (_pruefungsName != value)
+            {
+                _pruefungsName = value;
+                OnPropertyChanged();
+            }
+        }
+    }
 
     private string? _name;
     public string? Name
@@ -212,17 +258,40 @@ public class NotenViewModel : INotifyPropertyChanged
         InitProperties();
 
         _bouncer = new Debouncer(500);
+
+        // TODO Nach dem Laden der Daten kann auch gleich ohne zuvor die Teilnehmerliste zu laden
+        // auf den Tab Noten getappt werden. In Noten wird dann aber die falsche Erste Person angezeigt.
+        // Die NotenPage ermittelt sich aus der Current.Exam und Current.Participant. Exam passt, aber
+        // der Participant soll der erste gemäß der ShuffleIndicies sein! Die ShuffleIndicies müssen als
+        // beim Aufruf des Flyoutmenüs Notenvergabe erstellt werden.
     }
 
     public void InitProperties()
     {
+        var index = _manager?.CurrentShuffleIndex + 1;
         _grade = _manager.GetGrade();
         Name = _grade.Participant.Nachname;
         Vorname = _grade.Participant.Vorname;
         Verein = _manager?.CurrentParticipant?.Verein;
-        NR = (_manager?.CurrentShuffleIndex + 1).ToString();
+        NR = (index).ToString();
         Bemerkung = _grade.Bemerkung;
         Note = _grade.Note;
+        PruefungsName = _manager?.CurrentExam?.Name;
+
+        _hasBefore = true;
+        _hasNext = true;
+
+        if (index == 1)
+        {
+            _hasBefore = false;
+            _hasNext = true;
+        }
+        else if (index == _manager?.Participants?.Count)
+        {
+            _hasNext = false;
+            _hasBefore = true;
+        }
+
     }
     public async void SaveGrade()
     {
@@ -265,21 +334,24 @@ public class NotenViewModel : INotifyPropertyChanged
         // Berechne den Index des nächsten Teilnehmers
         int newIndex = _manager.CurrentShuffleIndex + dir;
 
+        // Ist newIndex im gültigen Bereich?
         if (newIndex >= 0 && newIndex < _manager.Participants.Count)
         {
             _manager.CurrentParticipant = participants[_manager.ShuffleIndicies[newIndex]];
             _manager.CurrentShuffleIndex = newIndex;
+            HasBefore = true;
+            HasNext = true;
         }
+    }
+    private async Task Save()
+    {
+        _manager.UpdateGrade(_grade);
+        await Task.CompletedTask;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
     private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-    private async Task Save()
-    {
-        _manager.UpdateGrade(_grade);
-        await Task.CompletedTask;
     }
 }

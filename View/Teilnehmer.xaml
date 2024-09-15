@@ -31,7 +31,7 @@
             FontAttributes="Bold"
             FontSize="Large"
             HorizontalOptions="Center"
-            Text="{Binding ExamName}"
+            Text="{Binding PruefungsName}"
             TextColor="#2C3E50"
             VerticalOptions="Center" />
 

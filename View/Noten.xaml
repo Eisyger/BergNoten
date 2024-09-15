@@ -19,12 +19,23 @@
             Spacing="20">
             <!--  Überschrift  -->
             <Label
-                FontAttributes="Bold"
-                FontSize="Header"
+                x:Name="HeadText"
+                Grid.Row="0"
+                Margin="0,0,0,0"
+                FontSize="Medium"
                 HorizontalOptions="Center"
-                Text="Notenvergabe"
+                Text="Aktuelle Prüfung:"
                 TextColor="#2C3E50"
                 VerticalOptions="Center" />
+            <Label
+                Grid.Row="1"
+                Margin="0,0,0,20"
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalOptions="Center"
+                Text="{Binding PruefungsName}"
+                TextColor="#2C3E50"
+                VerticalOptions="Center" />            
 
             <Frame
                 Padding="10"
@@ -125,6 +136,7 @@
                 Margin="20"
                 Clicked="BackButton_Clicked"
                 HorizontalOptions="Start"
+                IsVisible="{Binding HasBefore}"
                 Text="Zurück"
                 WidthRequest="100" />
 
@@ -134,6 +146,7 @@
                 Margin="20"
                 Clicked="NextButton_Clicked"
                 HorizontalOptions="End"
+                IsVisible="{Binding HasNext}"
                 Text="Vor"
                 WidthRequest="100" />
         </Grid>

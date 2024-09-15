@@ -30,7 +30,7 @@ public partial class Teilnehmer : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.SetRandomPositionsForParticipants();
+        _viewModel.Init();
     }
 }
 
@@ -40,16 +40,35 @@ public class TeilnehmerViewModel : INotifyPropertyChanged
 
     private ObservableCollection<DrawParticipant> _viewParticipantsList;
     public ObservableCollection<DrawParticipant> ViewParticipantsList { get => _viewParticipantsList; set { _viewParticipantsList = value; OnPropertyChanged(); } }
-    public string ExamName { get => _manager.CurrentExam.Name; }
+
+    private string _pruefungsName;
+    public string PruefungsName
+    {
+        get => _pruefungsName;
+        set
+        {
+            if (value != _pruefungsName)
+            {
+                _pruefungsName = value;
+                OnPropertyChanged();
+            }
+        }
+    }
     public TeilnehmerViewModel(AppManager manager)
     {
         _manager = manager;
         _viewParticipantsList = new ObservableCollection<DrawParticipant>();
-
-        SetRandomPositionsForParticipants();
+        _pruefungsName = _manager.CurrentExam.Name;
+        Init();
     }
 
-    public void SetRandomPositionsForParticipants()
+    public void Init()
+    {
+        SetRandomPositionsForParticipants();
+        PruefungsName = _manager.CurrentExam.Name;
+    }
+
+    private void SetRandomPositionsForParticipants()
     {
         _viewParticipantsList.Clear();
         // Fülle die _viewParticipantsList mit neuen Exemplaren

@@ -33,7 +33,8 @@
             Title="Noten"
             ContentTemplate="{DataTemplate view:Noten}"
             Icon="edit96.png"
-            Route="Noten" />
+            Route="Noten" 
+            IsEnabled="False"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Daten Exportieren..." Icon="share96.png">
