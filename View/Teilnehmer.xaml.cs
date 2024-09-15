@@ -14,7 +14,7 @@ public partial class Teilnehmer : ContentPage
         _viewModel = vm;
 
         BindingContext = _viewModel;
-        ParticipantsListView.ItemsSource = _viewModel.Participants;
+        ParticipantsListView.ItemsSource = _viewModel.ViewParticipantsList;
     }
 
     private async void OnItemTapped(object sender, TappedEventArgs e)
@@ -27,31 +27,43 @@ public partial class Teilnehmer : ContentPage
             await _viewModel.Next(participant);
         }
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.SetRandomPositionsForParticipants();
+    }
 }
 
 public class TeilnehmerViewModel : INotifyPropertyChanged
 {
     private AppManager _manager;
 
-    private ObservableCollection<DrawParticipant> participants;
-    public ObservableCollection<DrawParticipant> Participants { get => participants; set { participants = value; OnPropertyChanged(); } }
-    public string ExamName { get => _manager.CurrentExam?.Name ?? "Prüfungs Name"; }
+    private ObservableCollection<DrawParticipant> _viewParticipantsList;
+    public ObservableCollection<DrawParticipant> ViewParticipantsList { get => _viewParticipantsList; set { _viewParticipantsList = value; OnPropertyChanged(); } }
+    public string ExamName { get => _manager.CurrentExam.Name; }
     public TeilnehmerViewModel(AppManager manager)
     {
         _manager = manager;
+        _viewParticipantsList = new ObservableCollection<DrawParticipant>();
 
-        participants = new ObservableCollection<DrawParticipant>();
+        SetRandomPositionsForParticipants();
+    }
 
-        // Mische die Teilnehmerliste anhand eines Seeds
-        manager.Shuffle();
-        for (int i = 0; i < (manager.Participants?.Count ?? 0); i++)
+    public void SetRandomPositionsForParticipants()
+    {
+        _viewParticipantsList.Clear();
+        // Fülle die _viewParticipantsList mit neuen Exemplaren
+        // Die Reihenfolge wird von den ShuffleIndicies bestimmt!
+        for (int i = 0; i < (_manager.Participants?.Count ?? 0); i++)
         {
-            participants.Add(new DrawParticipant(manager.Participants[manager.ShuffleIndicies[i]], i));
+            _viewParticipantsList.Add(new DrawParticipant(_manager.Participants[_manager.ShuffleIndicies[i]], i));
         }
     }
+
     public async Task Next(DrawParticipant participant)
     {
         _manager.CurrentParticipant = _manager.Participants.FirstOrDefault(x => x.ID == participant.ParticipantID);
+        _manager.CurrentShuffleIndex = participant.Index;
         await Shell.Current.GoToAsync("//Noten");
     }
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -1,21 +1,30 @@
 using Bergnoten.Helper;
 using BergNoten.Model;
-using NPOI.SS.Formula.Functions;
 using System.ComponentModel;
-using System.Diagnostics.Metrics;
 using System.Runtime.CompilerServices;
 
 namespace BergNoten.View;
 
 public partial class Noten : ContentPage
 {
+    private AppManager _manager;
+
     private NotenViewModel _viewModel;
-    public Noten(NotenViewModel vm)
+    public Noten(AppManager manager)
     {
         InitializeComponent();
-        _viewModel = vm;
+        _manager = manager;
+        Refresh();
+
+    }
+    private void Refresh()
+    {
+        _viewModel = new NotenViewModel(_manager);
 
         BindingContext = _viewModel;
+
+        GradeSlider.Value = 0;
+        GradeEntry.Text = _viewModel.Note;
     }
 
     private void GradeSlider_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -47,7 +56,7 @@ public partial class Noten : ContentPage
         }
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
+    private void SignButton_Clicked(object sender, EventArgs e)
     {
         if (_viewModel.Note.Contains('-'))
         {
@@ -63,12 +72,27 @@ public partial class Noten : ContentPage
 
     private async void BackButton_Clicked(object sender, EventArgs e)
     {
-        await _viewModel.Next(-1);
+        // Navigiere durch die ShuffleIndicies
+        _viewModel.Next(-1);
+        await this.Content.FadeTo(0, 500);
+        Refresh();
+        await this.Content.FadeTo(1, 500);
+
     }
 
     private async void NextButton_Clicked(object sender, EventArgs e)
     {
-        await _viewModel.Next(1);
+        // Navigiere durch die ShuffleIndicies
+        _viewModel.Next(1);
+        await this.Content.FadeTo(0, 500);
+        Refresh();
+        await this.Content.FadeTo(1, 500);
+
+    }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Refresh();
     }
 }
 
@@ -77,13 +101,66 @@ public class NotenViewModel : INotifyPropertyChanged
     #region Properties
     private AppManager _manager;
     private Grade _grade;
-    private string _note = "-";
-    private Color _bgColor = Color.FromArgb("#90EE90");
     private Debouncer _bouncer;
-    public string? Name { get; set; }
-    public string? Vorname { get; set; }
-    public string? Verein { get; set; }
-    public string? NR { get; set; }
+
+    private string? _name;
+    public string? Name
+    {
+        get => _name;
+        set
+        {
+            if (_name != value)
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string? _vorname;
+    public string? Vorname
+    {
+        get => _vorname;
+        set
+        {
+            if (_vorname != value)
+            {
+                _vorname = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string? _verein;
+    public string? Verein
+    {
+        get => _verein;
+        set
+        {
+            if (_verein != value)
+            {
+                _verein = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string? _nr;
+    public string? NR
+    {
+        get => _nr;
+        set
+        {
+            if (_nr != value)
+            {
+                _nr = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    // TODO Standartwert der Note überarbeiten!
+    private string? _note = "-";
     public string? Note
     {
         get => _note;
@@ -97,7 +174,22 @@ public class NotenViewModel : INotifyPropertyChanged
             }
         }
     }
-    public string? Bemerkung { get; set; }
+
+    private string? _bemerkung;
+    public string? Bemerkung
+    {
+        get => _bemerkung;
+        set
+        {
+            if (_bemerkung != value)
+            {
+                _bemerkung = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private Color _bgColor = Color.FromArgb("#90EE90");
     public Color BGColor
     {
         get => _bgColor;
@@ -112,10 +204,18 @@ public class NotenViewModel : INotifyPropertyChanged
     }
     #endregion
 
+
     public NotenViewModel(AppManager manager)
     {
         _manager = manager;
 
+        InitProperties();
+
+        _bouncer = new Debouncer(500);
+    }
+
+    public void InitProperties()
+    {
         _grade = _manager.GetGrade();
         Name = _grade.Participant.Nachname;
         Vorname = _grade.Participant.Vorname;
@@ -123,8 +223,6 @@ public class NotenViewModel : INotifyPropertyChanged
         NR = (_manager?.CurrentShuffleIndex + 1).ToString();
         Bemerkung = _grade.Bemerkung;
         Note = _grade.Note;
-
-        _bouncer = new Debouncer(500);
     }
     public async void SaveGrade()
     {
@@ -135,6 +233,12 @@ public class NotenViewModel : INotifyPropertyChanged
     }
     public void CheckBGColor()
     {
+        if (Note == "-")
+        {
+            BGColor = Color.FromArgb("#90EE90");
+            return;
+        }
+        // TODO Standartwert der Note überarbeiten!
         double n = double.Parse(Note.Split('-')[0]);
         if (n >= 1 && n <= 3.5)
         {
@@ -149,9 +253,9 @@ public class NotenViewModel : INotifyPropertyChanged
             BGColor = Color.FromArgb("#FF4500");
         }
     }
-    public async Task Next(int dir)
+    public void Next(int dir)
     {
-        if (dir != 1 || dir != -1)
+        if (dir != 1 && dir != -1)
         {
             return;
         }
@@ -161,11 +265,10 @@ public class NotenViewModel : INotifyPropertyChanged
         // Berechne den Index des nächsten Teilnehmers
         int newIndex = _manager.CurrentShuffleIndex + dir;
 
-        if (newIndex >= 0)
+        if (newIndex >= 0 && newIndex < _manager.Participants.Count)
         {
             _manager.CurrentParticipant = participants[_manager.ShuffleIndicies[newIndex]];
             _manager.CurrentShuffleIndex = newIndex;
-            await Shell.Current.GoToAsync("//Noten");
         }
     }
 

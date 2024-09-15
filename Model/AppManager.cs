@@ -8,43 +8,39 @@ namespace BergNoten.Model
     {
         private DatabaseManager? _data;
         private Config _config;
-
+        private Exam _currentExam;
         public DatabaseManager? Database { get { return _data; } set { _data = value; } }
         public Config Configurations { get { return _config; } set { _config = value; } }
 
-        public Exam? CurrentExam { get; set; }
+        public Exam? CurrentExam
+        {
+            get => _currentExam; set { _currentExam = value; Shuffle(); }
+        }
         public List<Exam>? Exams { get; set; }
-        public Participant? CurrentParticipant { get; set; }
 
+        public Participant? CurrentParticipant { get; set; }
         public List<Participant>? Participants { get; set; }
         public int CurrentShuffleIndex { get; set; }
 
-        private int[] _shuffleIndex;
-        public int[] ShuffleIndicies => _shuffleIndex;
+        private int[] _shuffleIndicies;
+        public int[] ShuffleIndicies => _shuffleIndicies;
 
 
         public AppManager()
         {
-            //Lösche alte Datenbanken
-            DatabaseGarbageCollection.Clean(7);
-
             string pathConfig = Path.Combine(FileSystem.Current.AppDataDirectory, "config.json");
 
             // Initialisiere die Config, ist eine Config vorhanden wird sie geladen, wenn nicht wird eine neue erstellt.
             // In der Config werden alle Eigenschaften initialisiert, oder mit Werten aus der Datei überladen.
             _config = new Config(pathConfig);
 
+            // Lösche alte Datenbanken welche älter als 7 Tage sind.
+            DatabaseGarbageCollection.Clean(1);
             // Erstellt eine default Datenbank, sobald Daten aus einer .xls gealden werden wird eine neue Datenbank erstellt.                        
             CreateDatabase("default.db", isDefault: true);
 
-            // Initialisere das ShuffleIndex Array
-            _shuffleIndex = new int[Participants?.Count ?? 0];
-            for (int i = 0; i < (Participants?.Count ?? 0); i++)
-            {
-                _shuffleIndex[i] = i;
-            }
+            InitShuffleIndicies();
         }
-
         public void CreateDatabase(string name, bool isDefault = false)
         {
             string pathDatabase;
@@ -56,9 +52,8 @@ namespace BergNoten.Model
             }
             else
             {
-                // Datum am Ende des Dateinamens hinzufügen
-                pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory,
-                    name.Split(".")[0] + " " + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + ".db");
+                // Database erstellen mit dem Namen der geladenen .xls Datei
+                pathDatabase = Path.Combine(FileSystem.Current.AppDataDirectory, name.Split(".")[0] + ".db");
             }
 
             // Erstelle die Database
@@ -78,7 +73,6 @@ namespace BergNoten.Model
             CurrentParticipant = Participants?[0];
             CurrentExam = Exams?[0];
         }
-
         public void WriteGrade(string note, string bemerkung)
         {
             _data?.AddNote(new Grade(CurrentParticipant, CurrentExam, note, bemerkung));
@@ -107,20 +101,52 @@ namespace BergNoten.Model
         }
         public void Shuffle()
         {
-            int seed = CurrentExam.ID + 1337;
+            if (_shuffleIndicies == null)
+            {
+                return;
+            }
 
-            Random seededRandom = new Random(seed);
+            InitShuffleIndicies();
 
-            for (int i = 0; i < _shuffleIndex.Length; i++)
+            // Erstelle ein Random Exemplar mit einem Seed.             
+            Random seededRandom = new Random(GetSeed());
+
+            for (int i = 0; i < _shuffleIndicies.Length; i++)
             {
                 // Wähle einen zufälligen Index aus dem Bereich 0 bis i
-                int j = seededRandom.Next(0, _shuffleIndex.Length);
+                int j = seededRandom.Next(0, _shuffleIndicies.Length);
 
                 // Tausche die Elemente an den Indizes i und j
-                var temp = _shuffleIndex[i];
-                _shuffleIndex[i] = _shuffleIndex[j];
-                _shuffleIndex[j] = temp;
+                var temp = _shuffleIndicies[i];
+                _shuffleIndicies[i] = _shuffleIndicies[j];
+                _shuffleIndicies[j] = temp;
             }
+        }
+        private void InitShuffleIndicies()
+        {
+            // Initialisere das ShuffleIndex Array von 0 bis n aufsteigend
+            _shuffleIndicies = new int[Participants?.Count ?? 0];
+            for (int i = 0; i < (Participants?.Count ?? 0); i++)
+            {
+                _shuffleIndicies[i] = i;
+            }
+        }
+
+        /// <summary>
+        /// Erstelle den Seed mit hilfe der CurrentExam ID.
+        /// Der Seed ist für alle Benutzer der App gleich, sofern die Position und Name der Prüfung
+        /// in der .xls die geladen wurde, gleich sind.
+        /// </summary>
+        /// <returns></returns>
+        public int GetSeed()
+        {
+            int seed = 1337;
+
+            foreach (var c in _currentExam.Name)
+            {
+                seed += Convert.ToInt32(c);
+            }
+            return seed + 42 + (_currentExam.ID * 42);
         }
     }
 }

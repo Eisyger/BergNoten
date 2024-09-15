@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BergNoten.View.Noten"
-             Title="Noten">
+<ContentPage
+    x:Class="BergNoten.View.Noten"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Noten">
     <Grid>
         <!--  Define rows: one for content and one for the bottom buttons  -->
         <Grid.RowDefinitions>
@@ -13,97 +14,97 @@
         </Grid.RowDefinitions>
 
         <VerticalStackLayout
-         Grid.Row="0"
-         Margin="20"
-         Spacing="20">
+            Grid.Row="0"
+            Margin="20"
+            Spacing="20">
             <!--  Überschrift  -->
             <Label
-             FontAttributes="Bold"
-             FontSize="Header"
-             HorizontalOptions="Center"
-             Text="Notenvergabe"
-             TextColor="#2C3E50"
-             VerticalOptions="Center" />
+                FontAttributes="Bold"
+                FontSize="Header"
+                HorizontalOptions="Center"
+                Text="Notenvergabe"
+                TextColor="#2C3E50"
+                VerticalOptions="Center" />
 
             <Frame
-             Padding="10"
-             BackgroundColor="White"
-             BorderColor="Black"
-             CornerRadius="5">
+                Padding="10"
+                BackgroundColor="White"
+                BorderColor="Black"
+                CornerRadius="5">
 
                 <Grid ColumnDefinitions="50, *, 100">
 
                     <VerticalStackLayout Grid.Column="0" Padding="10">
                         <Label
-                         FontAttributes="Bold"
-                         FontSize="18"
-                         HorizontalTextAlignment="End"
-                         Text="{Binding NR}"
-                         TextColor="#333333" />
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalTextAlignment="End"
+                            Text="{Binding NR}"
+                            TextColor="#333333" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="1" Padding="10">
                         <Label
-                         FontAttributes="Bold"
-                         FontSize="18"
-                         Text="{Binding Vorname}"
-                         TextColor="#333333" />
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding Vorname}"
+                            TextColor="#333333" />
 
                         <Label
-                         FontAttributes="Bold"
-                         FontSize="18"
-                         Text="{Binding Name}"
-                         TextColor="#333333" />
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="{Binding Name}"
+                            TextColor="#333333" />
 
                         <Label
-                         FontSize="16"
-                         Text="{Binding Verein}"
-                         TextColor="#666666" />
+                            FontSize="16"
+                            Text="{Binding Verein}"
+                            TextColor="#666666" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout
-                     Grid.Column="2"
-                     Padding="10"
-                     BackgroundColor="{Binding BGColor}">
+                        Grid.Column="2"
+                        Padding="10"
+                        BackgroundColor="{Binding BGColor}">
 
                         <Label
-                         FontAttributes="Bold"
-                         FontSize="18"
-                         HorizontalTextAlignment="Start"
-                         Text="Note:"
-                         TextColor="#333333" />
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalTextAlignment="Start"
+                            Text="Note:"
+                            TextColor="#333333" />
                         <Label
-                         FontSize="32"
-                         HorizontalTextAlignment="Start"
-                         Text="{Binding Note}"
-                         TextColor="#666666" />
+                            FontSize="32"
+                            HorizontalTextAlignment="Start"
+                            Text="{Binding Note}"
+                            TextColor="#666666" />
 
                     </VerticalStackLayout>
                 </Grid>
             </Frame>
 
             <Slider
-             x:Name="GradeSlider"
-             Maximum="6"
-             Minimum="0.5"
-             ValueChanged="GradeSlider_ValueChanged"
-             WidthRequest="400" />
+                x:Name="GradeSlider"
+                Maximum="6"
+                Minimum="0.5"
+                ValueChanged="GradeSlider_ValueChanged"
+                WidthRequest="250" />
 
             <HorizontalStackLayout Margin="50" HorizontalOptions="Center">
                 <Entry
-                 x:Name="GradeEntry"
-                 Margin="10"
-                 FontAttributes="Bold"
-                 FontSize="Large"
-                 HeightRequest="100"
-                 TextChanged="Entry_TextChanged"
-                 WidthRequest="100" />
+                    x:Name="GradeEntry"
+                    Margin="10"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HeightRequest="100"
+                    TextChanged="Entry_TextChanged"
+                    WidthRequest="100" />
 
                 <Button
-                 Margin="10"
-                 Clicked="Button_Clicked"
-                 Text="+/-"
-                 WidthRequest="100" />
+                    Margin="10"
+                    Clicked="SignButton_Clicked"
+                    Text="+/-"
+                    WidthRequest="100" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
@@ -119,22 +120,22 @@
             </Grid.ColumnDefinitions>
 
             <Button
-             x:Name="BackButton"
-             Grid.Column="0"
-             Margin="20"
-             Clicked="BackButton_Clicked"
-             HorizontalOptions="Start"
-             Text="Zurück"
-             WidthRequest="100" />
+                x:Name="BackButton"
+                Grid.Column="0"
+                Margin="20"
+                Clicked="BackButton_Clicked"
+                HorizontalOptions="Start"
+                Text="Zurück"
+                WidthRequest="100" />
 
             <Button
-             x:Name="NextButton"
-             Grid.Column="2"
-             Margin="20"
-             Clicked="NextButton_Clicked"
-             HorizontalOptions="End"
-             Text="Vor"
-             WidthRequest="100" />
+                x:Name="NextButton"
+                Grid.Column="2"
+                Margin="20"
+                Clicked="NextButton_Clicked"
+                HorizontalOptions="End"
+                Text="Vor"
+                WidthRequest="100" />
         </Grid>
     </Grid>
 </ContentPage>

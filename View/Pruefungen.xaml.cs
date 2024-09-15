@@ -54,7 +54,7 @@ public class PruefungenViewModel : INotifyPropertyChanged
     public async Task SelectExam(Exam selectedExam)
     {
         _manager.CurrentExam = selectedExam;
-        await Shell.Current.GoToAsync("//Noten");
+        await Shell.Current.GoToAsync("//Teilnehmer");
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

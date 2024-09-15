@@ -16,7 +16,8 @@ namespace BergNoten.Database
 
         /// <summary>
         /// Initialisiert eine Datenbank und erstellt Tabellen für Teilnehmer und Prüfungen.
-        /// Doppelte Einträge werden bei der Initialisierung entfernt.
+        /// Doppelte Einträge werden bei der Initialisierung entfernt. Öffnet die Datenebank wenn vorhanden,
+        /// wenn nicht wird eine neue Datenbank erstellt.
         /// </summary>
         /// <param name="path">Der Pfad zur Datenbankdatei.</param>
         public DatabaseManager(string path)

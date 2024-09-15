@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System.Collections;
 using System.Reflection;
 
 namespace BergNoten.Model
@@ -6,7 +7,7 @@ namespace BergNoten.Model
     /// <summary>
     /// Stellt einen Teilnehmer dar.
     /// </summary>
-    public class Participant : TableData
+    public class Participant : TableData, IComparable<Participant>
     {
         #region Properties 
         [MaxLength(30),]
@@ -91,6 +92,11 @@ namespace BergNoten.Model
             l.RemoveAt(l.Count - 1);
 
             return [.. l];
+        }
+
+        public int CompareTo(Participant? other)
+        {
+            return this.ID.CompareTo(other.ID);
         }
     }
 }
