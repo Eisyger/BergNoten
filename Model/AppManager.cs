@@ -34,12 +34,10 @@ namespace BergNoten.Model
             // In der Config werden alle Eigenschaften initialisiert, oder mit Werten aus der Datei überladen.
             _config = new Config(pathConfig);
 
-            // Lösche alte Datenbanken welche älter als 7 Tage sind.
-            DatabaseGarbageCollection.Clean(1);
+            // Lösche alte Datenbanken welche älter als 100 Tage sind.
+            DatabaseGarbageCollection.Clean(100);
             // Erstellt eine default Datenbank, sobald Daten aus einer .xls gealden werden wird eine neue Datenbank erstellt.                        
             CreateDatabase("default.db", isDefault: true);
-
-            InitShuffleIndicies();
         }
         public void CreateDatabase(string name, bool isDefault = false)
         {
@@ -70,8 +68,12 @@ namespace BergNoten.Model
             Participants = _data.GetParticipants();
             Exams = _data.GetExams();
 
-            CurrentParticipant = Participants?[0];
+
+            // Die Reihenfolge ist hier wichtig, CurrentExams muss erst initialisiert sein, sonst ist 
+            // ShuffleIndicies nicht initialisiert.
+            CurrentShuffleIndex = 0;
             CurrentExam = Exams?[0];
+            CurrentParticipant = Participants?[ShuffleIndicies[CurrentShuffleIndex]];
         }
         public void WriteGrade(string note, string bemerkung)
         {
@@ -101,11 +103,6 @@ namespace BergNoten.Model
         }
         public void Shuffle()
         {
-            if (_shuffleIndicies == null)
-            {
-                return;
-            }
-
             InitShuffleIndicies();
 
             // Erstelle ein Random Exemplar mit einem Seed.             
@@ -140,13 +137,7 @@ namespace BergNoten.Model
         /// <returns></returns>
         public int GetSeed()
         {
-            int seed = 1337;
-
-            foreach (var c in _currentExam.Name)
-            {
-                seed += Convert.ToInt32(c);
-            }
-            return seed + 42 + (_currentExam.ID * 42);
+            return 1337 + (_currentExam.ID * 42);
         }
     }
 }
