@@ -5,12 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Mustervorlage">
     <VerticalStackLayout Padding="20,20,20,20">
-        <Label HorizontalOptions="Center" VerticalOptions="Center">
-            Exportiere eine Excel Vorlage an einen ausgewählten Speicherort.
-            Hier kann dann die Teilnehmerliste und die Prüfungen in Excel
-            ergänzt werden. Wenn ihr fertig seid, teilt diese Excel-Datei
-            mit eurem Team. Das Dateiformat .xls muss beibehalten werden!"
-        </Label>
+        <Label HorizontalOptions="Center" 
+               VerticalOptions="Center"
+               Text="{Binding Einleitungstext}"/>
 
         <Button
             Margin="0,50,0,0"
