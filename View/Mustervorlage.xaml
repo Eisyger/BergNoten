@@ -5,9 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Mustervorlage">
     <VerticalStackLayout Padding="20,20,20,20">
-        <Label HorizontalOptions="Center" 
-               VerticalOptions="Center"
-               Text="{Binding Einleitungstext}"/>
+        <Label
+            HorizontalOptions="Center"
+            Text="{Binding Einleitungstext}"
+            VerticalOptions="Center" />
 
         <Button
             Margin="0,50,0,0"

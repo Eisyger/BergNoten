@@ -1,5 +1,6 @@
 ﻿using BergNoten.Database;
 using BergNoten.Helper;
+using BergNoten.Interfaces;
 
 
 namespace BergNoten.Model
@@ -144,6 +145,27 @@ namespace BergNoten.Model
         public int GetSeed()
         {
             return 1337 + (_currentExam.ID * 42);
+        }
+
+        public void Export(string path)
+        {
+            var printGrades = new List<PrintGrade>();
+            foreach (var grade in _data.GetGrades())
+            {
+                printGrades.Add(new PrintGrade(Participants.FirstOrDefault(x => x.ID == grade.ID_Participant),
+                Exams.FirstOrDefault(x => x.ID == grade.ID_Exam), grade.Note));
+            }
+
+            var save_sheets = new List<List<IExportable>>
+            {
+                Participants.ConvertAll(p => (IExportable)p),
+                Exams.ConvertAll(e => (IExportable)e),
+                printGrades.ConvertAll(g => (IExportable)g)
+            };
+
+            IOExcel.ExportToExcel(save_sheets,
+                new List<string>() { "Teilnehmer", "Prüfungen", "Noten - " + _config.Username },
+                Path.Combine(path, _config.FileName.Split(".")[0] + " - " + _config.Username + ".xls"));
         }
     }
 }

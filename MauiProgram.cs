@@ -41,6 +41,8 @@ namespace BergNoten
             builder.Services.AddTransient<NotenViewModel>();
             builder.Services.AddTransient<Noten>();
 
+            //Exportieren View
+            builder.Services.AddTransient<Exportieren>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
