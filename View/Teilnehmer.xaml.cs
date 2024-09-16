@@ -54,6 +54,7 @@ public class TeilnehmerViewModel : INotifyPropertyChanged
             }
         }
     }
+
     public TeilnehmerViewModel(AppManager manager)
     {
         _manager = manager;
@@ -75,7 +76,9 @@ public class TeilnehmerViewModel : INotifyPropertyChanged
         // Die Reihenfolge wird von den ShuffleIndicies bestimmt!
         for (int i = 0; i < (_manager.Participants?.Count ?? 0); i++)
         {
-            _viewParticipantsList.Add(new DrawParticipant(_manager.Participants[_manager.ShuffleIndicies[i]], i));
+            var participant = new DrawParticipant(_manager.Participants[_manager.ShuffleIndicies[i]], i);
+            participant.Note = _manager.GetGrade(participant.ParticipantID, _manager.CurrentExam.ID).Note;
+            _viewParticipantsList.Add(participant);
         }
     }
 
@@ -99,6 +102,18 @@ public class DrawParticipant
     public string Nachname { get; set; }
     public string Vorname { get; set; }
     public int ParticipantID { get; set; }
+
+    private string _note;
+    public string Note
+    {
+        get => _note; set
+        {
+            if (value != _note)
+            {
+                _note = value; OnPropertyChanged();
+            }
+        }
+    }
     public DrawParticipant(Participant participant, int index)
     {
         this.Index = index;
@@ -106,5 +121,11 @@ public class DrawParticipant
         this.Nachname = participant.Nachname;
         this.Vorname = participant.Vorname;
         this.ParticipantID = participant.ID;
+        this._note = string.Empty;
+    }
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null!)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

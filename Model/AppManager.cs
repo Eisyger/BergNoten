@@ -79,7 +79,7 @@ namespace BergNoten.Model
         {
             _data?.AddNote(new Grade(CurrentParticipant, CurrentExam, note, bemerkung));
         }
-        public Grade GetGrade()
+        public Grade GetCurrentGrade()
         {
             var grades = _data.GetGrades();
             var existing_grade = grades.Where(x => x.ID_Participant == CurrentParticipant.ID && x.ID_Exam == CurrentExam.ID).FirstOrDefault();
@@ -96,6 +96,12 @@ namespace BergNoten.Model
                 existing_grade.Exam = _data.GetExams().First(e => e.ID == existing_grade.ID_Exam);
                 return existing_grade;
             }
+        }
+
+        public Grade GetGrade(int participantID, int examID)
+        {
+            var grades = _data.GetGrades();
+            return grades.Where(x => x.ID_Participant == participantID && x.ID_Exam == examID).FirstOrDefault();
         }
         public void UpdateGrade(Grade grade)
         {

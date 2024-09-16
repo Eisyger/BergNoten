@@ -3,7 +3,7 @@
     x:Class="BergNoten.View.Noten"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Noten">
+    Title="Notenvergabe">
     <Grid>
         <!--  Define rows: one for content and one for the bottom buttons  -->
         <Grid.RowDefinitions>
@@ -35,7 +35,7 @@
                 HorizontalOptions="Center"
                 Text="{Binding PruefungsName}"
                 TextColor="#2C3E50"
-                VerticalOptions="Center" />            
+                VerticalOptions="Center" />
 
             <Frame
                 Padding="10"

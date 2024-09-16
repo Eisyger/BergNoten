@@ -269,7 +269,7 @@ public class NotenViewModel : INotifyPropertyChanged
     public void InitProperties()
     {
         var index = _manager?.CurrentShuffleIndex + 1;
-        _grade = _manager.GetGrade();
+        _grade = _manager.GetCurrentGrade();
         Name = _grade.Participant.Nachname;
         Vorname = _grade.Participant.Vorname;
         Verein = _manager?.CurrentParticipant?.Verein;
