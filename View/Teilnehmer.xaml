@@ -3,7 +3,8 @@
     x:Class="BergNoten.View.Teilnehmer"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Teilnehmerauswahl">
+    Title="Teilnehmerauswahl"
+    BackgroundColor="#F5F5F5"> <!-- Primäre Hintergrundfarbe -->
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -23,7 +24,7 @@
             FontSize="Medium"
             HorizontalOptions="Center"
             Text="Aktuelle Prüfung:"
-            TextColor="#2C3E50"
+            TextColor="#2C3E50" <!-- Primäre Textfarbe -->
             VerticalOptions="Center" />
         <Label
             Grid.Row="1"
@@ -32,9 +33,8 @@
             FontSize="Large"
             HorizontalOptions="Center"
             Text="{Binding PruefungsName}"
-            TextColor="#2C3E50"
+            TextColor="#2C3E50" <!-- Primäre Textfarbe -->
             VerticalOptions="Center" />
-
 
         <!--  Auflistung der Prüflinge (CollectionView)  -->
         <CollectionView
@@ -47,9 +47,10 @@
                     <Frame
                         Margin="5"
                         Padding="10"
-                        BackgroundColor="#FFFFFF"
-                        BorderColor="#BDBDBD"
-                        CornerRadius="10">
+                        BackgroundColor="#FFFFFF" <!-- Hintergrundfarbe der Cards -->
+                        BorderColor="#D3D3D3" <!-- Leicht abgetönte Rahmenfarbe -->
+                        CornerRadius="10"
+                        HasShadow="True"> <!-- Leichte Schatten für Abhebung -->
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding}" Tapped="OnItemTapped" />
                         </Frame.GestureRecognizers>
@@ -63,38 +64,44 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <!-- Teilnehmerdetails -->
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 FontAttributes="Bold"
                                 FontSize="Medium"
                                 Text="{Binding ShowIndex}"
-                                TextColor="#2C3E50" />
+                                TextColor="#34495E" <!-- Sekundäre Textfarbe -->
+                                VerticalOptions="Center" />
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="1"
                                 FontSize="Medium"
                                 Text="{Binding Vorname}"
-                                TextColor="#2C3E50" />
+                                TextColor="#34495E" <!-- Sekundäre Textfarbe -->
+                                VerticalOptions="Center" />
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 FontSize="Small"
                                 Text="{Binding Nachname}"
-                                TextColor="#2C3E50" />
+                                TextColor="#34495E" <!-- Sekundäre Textfarbe -->
+                                VerticalOptions="Center" />
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="2"
                                 FontSize="Small"
                                 Text="Note:"
-                                TextColor="#2C3E50" />
+                                TextColor="#34495E" <!-- Sekundäre Textfarbe -->
+                                VerticalOptions="Center" />
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 FontAttributes="Bold"
                                 FontSize="Medium"
                                 Text="{Binding Note}"
-                                TextColor="#2C3E50" />
+                                TextColor="#2ECC71" <!-- Grüne Farbe für positive Noten -->
+                                VerticalOptions="Center" />
                         </Grid>
                     </Frame>
                 </DataTemplate>
