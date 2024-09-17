@@ -4,8 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Prüfungsfahrten"
-    BackgroundColor="#F5F5F5">
-
+    BackgroundColor="#EAEDED"> <!-- Primärer Hintergrund: Leichtes Grau -->
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -21,9 +20,8 @@
             FontSize="Medium"
             HorizontalOptions="Center"
             Text="Welche Prüfungsfahrt soll benotet werden?"
-            TextColor="#7F8C8D"
+            TextColor="#2C3E50" <!-- Primärer Text: Dunkles Anthrazit -->
             VerticalOptions="Center" />
-
 
         <!--  Auflistung der Prüfungsfahrten  -->
         <CollectionView
@@ -36,8 +34,8 @@
                     <Frame
                         Margin="5"
                         Padding="10"
-                        BackgroundColor="#FFFFFF"
-                        BorderColor="#BDBDBD"
+                        BackgroundColor="#FFFFFF" <!-- Karten-Hintergrund: Weiß -->
+                        BorderColor="#BDBDBD" <!-- Rahmenfarbe: Helles Grau -->
                         CornerRadius="10">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding}" Tapped="OnItemTapped" />
@@ -47,15 +45,18 @@
                                 FontAttributes="Bold"
                                 FontSize="Medium"
                                 Text="{Binding Name}"
-                                TextColor="#2C3E50" />
+                                TextColor="#2C3E50" <!-- Primärer Text: Dunkles Anthrazit -->
+                                />
                             <Label
                                 FontSize="Small"
                                 Text="{Binding Beschreibung}"
-                                TextColor="#2C3E50" />
+                                TextColor="#7F8C8D" <!-- Sekundärer Text: Mittelgrau -->
+                                />
                             <Label
                                 FontSize="Small"
                                 Text="1 von 39 benotet..."
-                                TextColor="#7F8C8D" />
+                                TextColor="#7F8C8D" <!-- Sekundärer Text für weniger wichtige Informationen -->
+                                />
                         </StackLayout>
                     </Frame>
                 </DataTemplate>
