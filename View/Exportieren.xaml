@@ -3,15 +3,22 @@
     x:Class="BergNoten.View.Exportieren"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Exportieren">
+    Title="Exportieren"
+    BackgroundColor="#F5F5F5"> <!-- Primärer Hintergrund: Hellgrau -->
+
     <VerticalStackLayout Padding="20,10,20,100">
 
-        <!--  Einleitungstext  -->
+        <!--  Einleitungstext (hier könnte z.B. ein Label hinzugefügt werden)  -->
         <Button
             Margin="0,30,0,0"
             Clicked="OnClickedExport"
             HorizontalOptions="Center"
             Text="Daten exportieren..."
-            WidthRequest="200" />
+            WidthRequest="200"
+            BackgroundColor="#4169E1"  <!-- Primärfarbe Button: Royalblau -->
+            TextColor="White"          <!-- Textfarbe für den Button: Weiß -->
+            CornerRadius="10"          <!-- Abgerundete Ecken für modernen Look -->
+            />
+
     </VerticalStackLayout>
 </ContentPage>
