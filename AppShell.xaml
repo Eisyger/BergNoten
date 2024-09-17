@@ -6,8 +6,13 @@
     xmlns:local="clr-namespace:BergNoten"
     xmlns:view="clr-namespace:BergNoten.View"
     Title="BergNoten"
-    Shell.FlyoutBehavior="Flyout">
+    Shell.FlyoutBehavior="Flyout"
+    BackgroundColor="#F5F5F5"     <!-- Primärer Hintergrund: Hellgrau -->
+    FlyoutBackgroundColor="#2C3E50"  <!-- Flyout Hintergrund: Dunkelblau/Anthrazit -->
+    FlyoutTitleColor="White"         <!-- Flyout Titel: Weiß -->
+    FlyoutIcon="app_icon.png">
 
+    <!-- FlyoutItem: Daten Laden -->
     <FlyoutItem Title="Daten Laden..." Icon="plus96.png">
         <ShellContent
             Title="Laden"
@@ -15,20 +20,20 @@
             Route="Laden" />
     </FlyoutItem>
 
+    <!-- FlyoutItem: Notenvergabe -->
     <FlyoutItem Title="Notenvergabe" Icon="edit96.png">
-
         <ShellContent
             Title="Prüfungen"
             ContentTemplate="{DataTemplate view:Pruefungen}"
             Icon="exam96.png"
             Route="Pruefungen" />
-
+            
         <ShellContent
             Title="Teilnehmer"
             ContentTemplate="{DataTemplate view:Teilnehmer}"
             Icon="people96.png"
             Route="Teilnehmer" />
-
+            
         <ShellContent
             Title="Noten"
             ContentTemplate="{DataTemplate view:Noten}"
@@ -37,6 +42,7 @@
             Route="Noten" />
     </FlyoutItem>
 
+    <!-- FlyoutItem: Daten Exportieren -->
     <FlyoutItem Title="Daten Exportieren..." Icon="share96.png">
         <ShellContent
             Title="Exportieren"
@@ -44,20 +50,67 @@
             Route="Exportieren" />
     </FlyoutItem>
 
+    <!-- FlyoutItem: Einstellungen -->
     <FlyoutItem Title="Einstellungen" Icon="settings96.png">
         <ShellContent
             Title="Einstellungen"
             ContentTemplate="{DataTemplate view:Einstellungen}"
             Route="Einstellungen" />
+            
         <ShellContent
             Title="User"
             ContentTemplate="{DataTemplate view:Username}"
             Route="Username" />
+            
         <ShellContent
             Title="Mustervorlage"
             ContentTemplate="{DataTemplate view:Mustervorlage}"
             Route="Mustervorlage" />
     </FlyoutItem>
 
+    <!-- Stile für Buttons und Labels -->
+    <Shell.Resources>
+        <!-- Stil für Labels (Primärer Text: Dunkles Anthrazit) -->
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="#2C3E50" /> <!-- Dunkles Anthrazit -->
+            <Setter Property="FontSize" Value="Medium" />
+        </Style>
 
+        <!-- Stil für Buttons -->
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#3498DB" /> <!-- Primäre Button-Farbe: Royalblau -->
+            <Setter Property="TextColor" Value="White" /> <!-- Button-Text: Weiß -->
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="Padding" Value="10,5" />
+        </Style>
+
+        <!-- Stil für deaktivierte Buttons -->
+        <Style TargetType="Button" x:Key="DisabledButtonStyle">
+            <Setter Property="BackgroundColor" Value="#BDC3C7" /> <!-- Hellgrau für deaktivierte Buttons -->
+            <Setter Property="TextColor" Value="#7F8C8D" /> <!-- Ausgegrauter Text -->
+        </Style>
+
+        <!-- Stil für Eingabefelder (TextBoxes) -->
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="White" /> <!-- Weißer Hintergrund -->
+            <Setter Property="TextColor" Value="#2C3E50" /> <!-- Dunkler Text -->
+            <Setter Property="PlaceholderColor" Value="#95A5A6" /> <!-- Hellgrauer Platzhalter -->
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="Margin" Value="0,10,0,10" />
+        </Style>
+
+        <!-- Stil für Fehlermeldungen -->
+        <Style TargetType="Label" x:Key="ErrorLabelStyle">
+            <Setter Property="TextColor" Value="#E74C3C" /> <!-- Kräftiges Rot -->
+            <Setter Property="FontSize" Value="Small" />
+        </Style>
+
+        <!-- Stil für Erfolgsmeldungen -->
+        <Style TargetType="Label" x:Key="SuccessLabelStyle">
+            <Setter Property="TextColor" Value="#27AE60" /> <!-- Dunkelgrün -->
+            <Setter Property="FontSize" Value="Small" />
+        </Style>
+    </Shell.Resources>
 </Shell>
