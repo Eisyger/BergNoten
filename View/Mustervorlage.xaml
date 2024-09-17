@@ -3,17 +3,24 @@
     x:Class="BergNoten.View.Mustervorlage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Mustervorlage">
+    Title="Mustervorlage"
+    BackgroundColor="#F5F5F5"> <!-- Primärer Hintergrund: Hellgrau -->
+
     <VerticalStackLayout Padding="20,20,20,20">
         <Label
             HorizontalOptions="Center"
             Text="{Binding Einleitungstext}"
-            VerticalOptions="Center" />
+            VerticalOptions="Center"
+            TextColor="#333333" <!-- Primärer Text: Dunkles Anthrazit -->
+            FontSize="Medium" />
 
         <Button
             Margin="0,50,0,0"
             Clicked="OnClicked"
-            Text="Mustervorlage erstellen" />
+            Text="Mustervorlage erstellen"
+            BackgroundColor="#4169E1" <!-- Primärer Button: Royalblau -->
+            TextColor="White" <!-- Button-Text: Weiß -->
+            CornerRadius="10" /> <!-- Abgerundete Ecken für einen moderneren Look -->
 
     </VerticalStackLayout>
 </ContentPage>
