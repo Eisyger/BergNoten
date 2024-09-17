@@ -4,44 +4,54 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Username"
-    BackgroundColor="#F5F5F5"
+    BackgroundColor="#F5F5F5"  <!-- Primärer Hintergrund: Hellgrau -->
     FlyoutItem.IsVisible="False"
     Shell.NavBarIsVisible="False">
 
     <VerticalStackLayout Margin="20" Spacing="20">
+        <!-- Titel-Label -->
         <Label
             FontAttributes="Bold"
             FontSize="Header"
             HorizontalOptions="Center"
             Text="Berg Noten"
+            TextColor="#2C3E50"  <!-- Primärer Text: Dunkles Anthrazit -->
             VerticalOptions="Center" />
 
+        <!-- Frage-Label -->
         <Label
             FontSize="Medium"
             HorizontalOptions="Center"
             Text="Wie ist dein Name?"
-            TextColor="#7F8C8D"
+            TextColor="#7F8C8D"  <!-- Sekundärer Text: Mittelgrau -->
             VerticalOptions="Center" />
 
+        <!-- Eingabefeld (Entry) -->
         <Entry
             x:Name="nameEntry"
             Margin="0,0,0,10"
-            BackgroundColor="White"
+            BackgroundColor="#FFFFFF"  <!-- Weißer Hintergrund für Eingabefeld -->
             Placeholder="Vor- und Nachname"
-            PlaceholderColor="#BDBDBD"
+            PlaceholderColor="#BDBDBD"  <!-- Platzhalter: Hellgrau -->
             TextChanged="OnNameEntryTextChanged"
-            TextColor="#333333" />
+            TextColor="#333333"  <!-- Textfarbe: Dunkles Grau -->
+            BorderColor="#2980B9"  <!-- Rahmenfarbe bei Fokus: Hellblau (primäre Farbe) -->
+            />
 
+        <!-- Speichern-Button -->
         <Button
             x:Name="nameButton"
             Padding="20,10"
-            BackgroundColor="#2980B9"
+            BackgroundColor="#2980B9"  <!-- Primäre Button-Farbe: Kräftiges Blau -->
             Clicked="OnNameButtonClicked"
             CornerRadius="10"
             FontAttributes="Bold"
-            IsEnabled="False"
+            IsEnabled="False"  <!-- Standardmäßig ausgegraut, da disabled -->
             Text="Speichern"
-            TextColor="White" />
+            TextColor="White"  <!-- Weißer Text auf dem blauen Button -->
+            DisabledBackgroundColor="#BDC3C7"  <!-- Disabled-Button: Hellgrau -->
+            DisabledTextColor="#FFFFFF"  <!-- Weißer Text auf disabled Button -->
+            />
 
     </VerticalStackLayout>
 </ContentPage>
