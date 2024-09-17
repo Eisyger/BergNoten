@@ -4,21 +4,29 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Exportieren"
-    BackgroundColor="#F5F5F5"> <!-- Primärer Hintergrund: Hellgrau -->
+    BackgroundColor="#F0F0F5">
+    <VerticalStackLayout
+        Margin="20"
+        Padding="20"
+        Spacing="20">
+        <!--  Label für einen sekundären Text  -->
+        <Label
+            FontSize="Small"
+            HorizontalOptions="Center"
+            Text="Exportiert deine Noten in eine .xsl Datei. Sende diese an den Lehrgangsleiter."
+            TextColor="#808080" />
 
-    <VerticalStackLayout Padding="20,10,20,100">
 
         <!--  Einleitungstext (hier könnte z.B. ein Label hinzugefügt werden)  -->
         <Button
             Margin="0,30,0,0"
+            BackgroundColor="#3498DB"
             Clicked="OnClickedExport"
+            CornerRadius="10"
             HorizontalOptions="Center"
             Text="Daten exportieren..."
-            WidthRequest="200"
-            BackgroundColor="#4169E1"  <!-- Primärfarbe Button: Royalblau -->
-            TextColor="White"          <!-- Textfarbe für den Button: Weiß -->
-            CornerRadius="10"          <!-- Abgerundete Ecken für modernen Look -->
-            />
+            TextColor="White"
+            WidthRequest="200" />
 
     </VerticalStackLayout>
 </ContentPage>

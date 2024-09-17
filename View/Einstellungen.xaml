@@ -4,39 +4,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Einstellungen"
-    BackgroundColor="#F0F0F0"> <!-- Hellgrauer Hintergrund -->
+    BackgroundColor="#F0F0F5"> 
+    <!--  Hellgrauer Hintergrund  -->
 
-    <VerticalStackLayout Padding="20" Spacing="10">
+    <VerticalStackLayout Padding="20" Margin="20" Spacing="20">
 
-        <!-- Primärer Button mit kräftiger Farbe -->
-        <Button 
-            Text="Nix" 
-            BackgroundColor="#3A6EA5" <!-- Royalblau für den primären Button -->
-            TextColor="White" <!-- Weißer Button-Text -->
-            CornerRadius="10" <!-- Leichte Rundung für modernes Design -->
-            HeightRequest="50" />
+        <!--  Beispiel für eine sekundäre Textfarbe  -->
+        <Label
+            FontSize="Small"
+            HorizontalOptions="Center"
+            Text="Hier gibt es noch nichts..."
+            TextColor="#808080" />
 
-        <!-- Sekundärer Button als Beispiel -->
-        <Button 
-            Text="Mehr Optionen" 
-            BackgroundColor="#B0C4DE" <!-- Hellere, gedämpfte Farbe (Hellblau) -->
-            TextColor="Black" <!-- Schwarzer Text für guten Kontrast auf hellen Buttons -->
-            CornerRadius="10"
-            HeightRequest="50" />
-        
-        <!-- Beispiel für ein Label mit primärer Textfarbe -->
-        <Label 
-            Text="Einstellungen" 
-            FontSize="24"
-            TextColor="#2D2D2D" <!-- Dunkles Anthrazit für Lesbarkeit -->
-            HorizontalOptions="Center" />
-        
-        <!-- Beispiel für eine sekundäre Textfarbe -->
-        <Label 
-            Text="Ändere deine Einstellungen hier." 
-            FontSize="16"
-            TextColor="#808080" <!-- Mittelgrau für weniger wichtige Infos -->
-            HorizontalOptions="Center" />
-        
     </VerticalStackLayout>
 </ContentPage>

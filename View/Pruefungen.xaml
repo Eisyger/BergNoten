@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Prüfungsfahrten"
-    BackgroundColor="#EAEDED"> <!-- Primärer Hintergrund: Leichtes Grau -->
+    BackgroundColor="#F0F0F5">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -17,11 +17,11 @@
             x:Name="HeadText"
             Grid.Row="0"
             Margin="0,0,0,20"
-            FontSize="Medium"
+            FontSize="Small"
             HorizontalOptions="Center"
             Text="Welche Prüfungsfahrt soll benotet werden?"
-            TextColor="#2C3E50" <!-- Primärer Text: Dunkles Anthrazit -->
-            VerticalOptions="Center" />
+            TextColor="#808080"
+ VerticalOptions="Center"/>
 
         <!--  Auflistung der Prüfungsfahrten  -->
         <CollectionView
@@ -34,8 +34,8 @@
                     <Frame
                         Margin="5"
                         Padding="10"
-                        BackgroundColor="#FFFFFF" <!-- Karten-Hintergrund: Weiß -->
-                        BorderColor="#BDBDBD" <!-- Rahmenfarbe: Helles Grau -->
+                        BackgroundColor="#FFFFFF"
+                        BorderColor="#BDBDBD"
                         CornerRadius="10">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding}" Tapped="OnItemTapped" />
@@ -45,18 +45,15 @@
                                 FontAttributes="Bold"
                                 FontSize="Medium"
                                 Text="{Binding Name}"
-                                TextColor="#2C3E50" <!-- Primärer Text: Dunkles Anthrazit -->
-                                />
+                                TextColor="#34495E" />
                             <Label
                                 FontSize="Small"
                                 Text="{Binding Beschreibung}"
-                                TextColor="#7F8C8D" <!-- Sekundärer Text: Mittelgrau -->
-                                />
+                                TextColor="#34495E" />
                             <Label
                                 FontSize="Small"
                                 Text="1 von 39 benotet..."
-                                TextColor="#7F8C8D" <!-- Sekundärer Text für weniger wichtige Informationen -->
-                                />
+                                TextColor="#34495E" />
                         </StackLayout>
                     </Frame>
                 </DataTemplate>
