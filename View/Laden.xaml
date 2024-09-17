@@ -3,29 +3,35 @@
     x:Class="BergNoten.View.Laden"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Laden Prüfungsdaten">
+    Title="Laden Prüfungsdaten"
+    BackgroundColor="#F0F0F5"> <!-- Primärer Hintergrund: Leichtes Grau -->
 
     <VerticalStackLayout Padding="20,10,20,100">
-
+        
         <!--  Einleitungstext  -->
         <Label
             FontSize="Medium"
             HorizontalOptions="Center"
             Text="{Binding Zeile1}"
-            TextColor="DarkSlateGray"
+            TextColor="#2E3B4E" <!-- Primärer Text: Dunkles Blau-Grau -->
             VerticalOptions="Center" />
         <Label
             FontSize="Medium"
             HorizontalOptions="Center"
             Text="{Binding Zeile2}"
-            TextColor="DarkSlateGray"
+            TextColor="#2E3B4E" <!-- Primärer Text: Dunkles Blau-Grau -->
             VerticalOptions="Center" />
 
+        <!-- Button -->
         <Button
             Margin="0,30,0,0"
             Clicked="OnClickedLaden"
             HorizontalOptions="Center"
             Text="Daten suchen..."
-            WidthRequest="150" />
+            WidthRequest="150"
+            BackgroundColor="#4169E1" <!-- Primäre Button-Farbe: Royalblau -->
+            TextColor="White" <!-- Button-Text: Weiß -->
+            CornerRadius="10" <!-- Leicht abgerundete Ecken für modernen Look -->
+            />
     </VerticalStackLayout>
 </ContentPage>
