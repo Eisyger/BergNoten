@@ -26,7 +26,7 @@ public partial class Laden : ContentPage
         }
         else
         {
-            await DisplayAlert("Fehler", "Fehlerhafte Excel Datei.", "OK");
+            await DisplayAlert("Fehler", "Es konnte keien Datei geladen werden.", "OK");
         }
     }
 }

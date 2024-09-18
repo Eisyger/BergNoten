@@ -1,6 +1,7 @@
 ﻿using BergNoten.Database;
 using BergNoten.Helper;
 using BergNoten.Interfaces;
+using System.ComponentModel;
 
 
 namespace BergNoten.Model
@@ -173,16 +174,28 @@ namespace BergNoten.Model
                 Exams.FirstOrDefault(x => x.ID == grade.ID_Exam), grade.Note));
             }
 
-            var save_sheets = new List<List<IExportable>>
+            try
             {
-                Participants.ConvertAll(p => (IExportable)p),
-                Exams.ConvertAll(e => (IExportable)e),
-                printGrades.ConvertAll(g => (IExportable)g)
-            };
+                var save_sheets = new List<List<IExportable>>
+                {
+                    Participants.ConvertAll(p => (IExportable)p),
+                    Exams.ConvertAll(e => (IExportable)e),
+                    printGrades.ConvertAll(g => (IExportable)g)
+                };
 
-            IOExcel.ExportToExcel(save_sheets,
-                new List<string>() { "Teilnehmer", "Prüfungen", "Noten - " + _config.Username },
-                Path.Combine(path, _config.FileName.Split(".")[0] + " - " + _config.Username + ".xls"));
+
+                IOExcel.ExportToExcel(save_sheets,
+                    new List<string>() { "Teilnehmer", "Prüfungen", "Noten - " + _config.Username },
+                    Path.Combine(path, _config.FileName.Split(".")[0] + " - " + _config.Username + ".xls"));
+            }
+            catch (NullReferenceException ex)
+            {
+                throw new NullReferenceException("Ein Null-Referenz-Fehler ist beim Export aufgetreten. ", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ein Fehler ist beim Export aufgetreten. ", ex);
+            }
         }
     }
 }
