@@ -91,7 +91,7 @@ namespace BergNoten.Model
 
             if (grades.Count > 0)
             {
-                existing_grade = grades.Where(x => x.ID_Participant == ShuffleIndicies[0] && x.ID_Exam == CurrentExam.ID).FirstOrDefault();
+                existing_grade = grades.Where(x => x.ID_Participant == CurrentParticipant.ID && x.ID_Exam == CurrentExam.ID).FirstOrDefault();
                 /*return new Grade(new Participant("Nicht geladen", "Nicht geladen", "Nicht geladen", "Nicht geladen"),
                        new Exam() { Name = "Nicht geladen" });*/
             }
@@ -143,6 +143,8 @@ namespace BergNoten.Model
                 _shuffleIndicies[i] = _shuffleIndicies[j];
                 _shuffleIndicies[j] = temp;
             }
+
+            CurrentParticipant = Participants[_shuffleIndicies[0]];
         }
         private void InitShuffleIndicies()
         {
