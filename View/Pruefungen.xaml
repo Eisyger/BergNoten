@@ -21,7 +21,7 @@
             HorizontalOptions="Center"
             Text="Welche Prüfungsfahrt soll benotet werden?"
             TextColor="#808080"
- VerticalOptions="Center"/>
+            VerticalOptions="Center" />
 
         <!--  Auflistung der Prüfungsfahrten  -->
         <CollectionView
@@ -49,10 +49,6 @@
                             <Label
                                 FontSize="Small"
                                 Text="{Binding Beschreibung}"
-                                TextColor="#34495E" />
-                            <Label
-                                FontSize="Small"
-                                Text="1 von 39 benotet..."
                                 TextColor="#34495E" />
                         </StackLayout>
                     </Frame>

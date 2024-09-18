@@ -6,8 +6,11 @@
     Title="Benutzer"
     BackgroundColor="#F0F0F5">
 
-    <VerticalStackLayout Padding="20" Margin="20" Spacing="20">
-        
+    <VerticalStackLayout
+        Margin="20"
+        Padding="20"
+        Spacing="20">
+
         <!--  Frage-Label  -->
         <Label
             FontSize="Small"

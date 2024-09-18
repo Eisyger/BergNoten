@@ -1,11 +1,7 @@
-using BergNoten.Helper;
 using BergNoten.Model;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace BergNoten.View;
 
@@ -36,20 +32,36 @@ public partial class Pruefungen : ContentPage
             await _viewModel.SelectExam(exam);
         }
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.Refresh();
+    }
 }
 
 public class PruefungenViewModel : INotifyPropertyChanged
 {
     private AppManager _manager;
-    private List<Exam>? _exams;
-    public List<Exam>? Exams { get => _exams; set { _exams = value; OnPropertyChanged(); } }
+    private ObservableCollection<Exam>? _exams;
+    public ObservableCollection<Exam>? Exams { get => _exams; set { _exams = value; OnPropertyChanged(); } }
     public Exam? CurrentExam => _manager.CurrentExam;
 
     public PruefungenViewModel(AppManager manager)
     {
-        _exams = null;
         _manager = manager;
-        Exams = _manager.Exams;
+        _exams = new ObservableCollection<Exam>();
+        Refresh();
+    }
+    public void Refresh()
+    {
+        if (_manager.Exams == null)
+        { return; }
+        _exams.Clear();
+        foreach (var ex in _manager.Exams)
+        {
+            _exams.Add(ex);
+        }
     }
     public async Task SelectExam(Exam selectedExam)
     {

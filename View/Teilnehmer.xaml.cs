@@ -59,14 +59,13 @@ public class TeilnehmerViewModel : INotifyPropertyChanged
     {
         _manager = manager;
         _viewParticipantsList = new ObservableCollection<DrawParticipant>();
-        _pruefungsName = _manager.CurrentExam.Name;
         Init();
     }
 
     public void Init()
     {
         SetRandomPositionsForParticipants();
-        PruefungsName = _manager.CurrentExam.Name;
+        PruefungsName = _manager.CurrentExam?.Name ?? "Keine Prüfung geladen";
     }
 
     private void SetRandomPositionsForParticipants()
@@ -77,7 +76,17 @@ public class TeilnehmerViewModel : INotifyPropertyChanged
         for (int i = 0; i < (_manager.Participants?.Count ?? 0); i++)
         {
             var participant = new DrawParticipant(_manager.Participants[_manager.ShuffleIndicies[i]], i);
-            participant.Note = _manager.GetGrade(participant.ParticipantID, _manager.CurrentExam.ID).Note;
+            var grade = _manager.GetGrade(participant.ParticipantID, _manager.CurrentExam.ID);
+            if (grade != null)
+            {
+
+                participant.Note = grade.Note;
+            }
+            else
+            {
+                participant.Note = "-";
+            }
+
             _viewParticipantsList.Add(participant);
         }
     }

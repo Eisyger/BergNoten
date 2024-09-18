@@ -83,7 +83,7 @@
                                 VerticalOptions="Center" />
                             <Label
                                 Grid.Row="1"
-                                Grid.Column="1"                                
+                                Grid.Column="1"
                                 FontSize="Small"
                                 Text="{Binding Nachname}"
                                 TextColor="#34495E"

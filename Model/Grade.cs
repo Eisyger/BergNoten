@@ -46,8 +46,8 @@ namespace BergNoten.Model
             Participant = participant;
             Exam = exam;
 
-            ID_Exam = Exam.ID;
-            ID_Participant = Participant.ID;
+            ID_Exam = Exam?.ID ?? -1;
+            ID_Participant = Participant?.ID ?? -1;
         }
 
         public override List<PropertyInfo> GetProperties()

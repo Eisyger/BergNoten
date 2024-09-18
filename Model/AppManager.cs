@@ -61,20 +61,23 @@ namespace BergNoten.Model
             // Daten laden aus Excel
             var dataFromExcel = IOExcel.ImportFromExcel(_config.PathToData);
 
-            // Extrahieren der Daten und einfügen in die Table der Database
-            _data.AddParticipants(dataFromExcel[0]);
-            _data.AddExams(dataFromExcel[1]);
+            if (dataFromExcel.Count > 0)
+            {
+                // Extrahieren der Daten und einfügen in die Table der Database
+                _data.AddParticipants(dataFromExcel[0]);
+                _data.AddExams(dataFromExcel[1]);
 
-            // Setze die Eigenschaften mit den Database Daten
-            Participants = _data.GetParticipants();
-            Exams = _data.GetExams();
+                // Setze die Eigenschaften mit den Database Daten
+                Participants = _data.GetParticipants();
+                Exams = _data.GetExams();
 
 
-            // Die Reihenfolge ist hier wichtig, CurrentExams muss erst initialisiert sein, sonst ist 
-            // ShuffleIndicies nicht initialisiert.
-            CurrentShuffleIndex = 0;
-            CurrentExam = Exams?[0];
-            CurrentParticipant = Participants?[ShuffleIndicies[CurrentShuffleIndex]];
+                // Die Reihenfolge ist hier wichtig, CurrentExams muss erst initialisiert sein, sonst ist 
+                // ShuffleIndicies nicht initialisiert.
+                CurrentShuffleIndex = 0;
+                CurrentExam = Exams?[0];
+                CurrentParticipant = Participants?[ShuffleIndicies[CurrentShuffleIndex]];
+            }
         }
         public void WriteGrade(string note, string bemerkung)
         {
@@ -83,13 +86,26 @@ namespace BergNoten.Model
         public Grade GetCurrentGrade()
         {
             var grades = _data.GetGrades();
-            var existing_grade = grades.Where(x => x.ID_Participant == CurrentParticipant.ID && x.ID_Exam == CurrentExam.ID).FirstOrDefault();
+            Grade? existing_grade = null;
+
+            if (grades.Count > 0)
+            {
+                existing_grade = grades.Where(x => x.ID_Participant == ShuffleIndicies[0] && x.ID_Exam == CurrentExam.ID).FirstOrDefault();
+                /*return new Grade(new Participant("Nicht geladen", "Nicht geladen", "Nicht geladen", "Nicht geladen"),
+                       new Exam() { Name = "Nicht geladen" });*/
+            }
+
+
             if (existing_grade == null)
             {
-                var new_grade = new Grade(CurrentParticipant, CurrentExam);
-                //Füge die Note der Datenbank hinzu
-                _data.AddNote(new_grade);
-                return new_grade;
+                if (CurrentExam != null && CurrentParticipant != null)
+                {
+                    var new_grade = new Grade(CurrentParticipant, CurrentExam);
+                    new_grade.Note = "-";
+                    //Füge die Note der Datenbank hinzu
+                    _data.AddNote(new_grade);
+                    return new_grade;
+                }
             }
             else
             {
@@ -97,9 +113,10 @@ namespace BergNoten.Model
                 existing_grade.Exam = _data.GetExams().First(e => e.ID == existing_grade.ID_Exam);
                 return existing_grade;
             }
+            return null;
         }
 
-        public Grade GetGrade(int participantID, int examID)
+        public Grade? GetGrade(int participantID, int examID)
         {
             var grades = _data.GetGrades();
             return grades.Where(x => x.ID_Participant == participantID && x.ID_Exam == examID).FirstOrDefault();

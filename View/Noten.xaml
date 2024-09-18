@@ -60,21 +60,21 @@
 
                     <VerticalStackLayout Grid.Column="1" Padding="10">
                         <Label
-                            FontSize="Medium"
                             FontAttributes="Bold"
+                            FontSize="Medium"
                             Text="{Binding Vorname}"
                             TextColor="#34495E" />
 
                         <Label
-                            FontSize="Medium"
                             FontAttributes="Bold"
+                            FontSize="Medium"
                             Text="{Binding Name}"
                             TextColor="#34495E" />
 
                         <Label
                             FontSize="Small"
                             Text="{Binding Verein}"
-                            TextColor="#34495E"/>
+                            TextColor="#34495E" />
                         <!--  Sekundärer Text: Mittelgrau (#7F8C8D)  -->
                     </VerticalStackLayout>
 
@@ -90,11 +90,11 @@
                             TextColor="#34495E" />
                         <!--  Primärer Text: Dunkles Blau (#2C3E50)  -->
                         <Label
-                            FontSize="Large"
                             FontAttributes="Bold"
+                            FontSize="Large"
                             HorizontalTextAlignment="Start"
                             Text="{Binding Note}"
-                            TextColor="#34495E"/>
+                            TextColor="#34495E" />
                         <!--  Sekundärer Text: Mittelgrau (#7F8C8D)  -->
                     </VerticalStackLayout>
                 </Grid>
@@ -124,7 +124,7 @@
                     TextChanged="Entry_TextChanged"
                     TextColor="#2C3E50"
                     WidthRequest="100" />
-                
+
                 <Button
                     Margin="10"
                     BackgroundColor="#3498DB"
@@ -132,7 +132,7 @@
                     Text="+/-"
                     TextColor="White"
                     WidthRequest="100" />
-                
+
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
@@ -157,7 +157,7 @@
                 IsVisible="{Binding HasBefore}"
                 Text="Zurück"
                 TextColor="White"
-                WidthRequest="100" />            
+                WidthRequest="100" />
 
             <Button
                 x:Name="NextButton"
@@ -169,7 +169,7 @@
                 IsVisible="{Binding HasNext}"
                 Text="Vor"
                 TextColor="White"
-                WidthRequest="100" />            
+                WidthRequest="100" />
         </Grid>
     </Grid>
 </ContentPage>

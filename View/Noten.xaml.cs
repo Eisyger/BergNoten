@@ -31,66 +31,81 @@ public partial class Noten : ContentPage
 
     private void GradeSlider_ValueChanged(object sender, ValueChangedEventArgs e)
     {
-        var slider = sender as Slider;
-        slider.Value = Math.Round(slider.Value / 0.5) * 0.5;
-        if (slider.Value >= 1 && slider.Value >= 1)
+        if (_viewModel.HasData)
         {
-            _viewModel.Note = slider.Value.ToString("F1");
-            GradeEntry.Text = "";
+            var slider = sender as Slider;
+            slider.Value = Math.Round(slider.Value / 0.5) * 0.5;
+            if (slider.Value >= 1 && slider.Value >= 1)
+            {
+                _viewModel.Note = slider.Value.ToString("F1");
+                GradeEntry.Text = "";
 
-            _viewModel.SaveGrade();
+                _viewModel.SaveGrade();
+            }
         }
 
     }
 
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        var entry = sender as Entry;
-        if (double.TryParse(entry.Text, out double zahl))
+        if (_viewModel.HasData)
         {
-            if (zahl >= 1 && zahl <= 6)
+            var entry = sender as Entry;
+            if (double.TryParse(entry.Text, out double zahl))
             {
-                _viewModel.Note = zahl.ToString("F1");
-                GradeSlider.Value = GradeSlider.Minimum;
+                if (zahl >= 1 && zahl <= 6)
+                {
+                    _viewModel.Note = zahl.ToString("F1");
+                    GradeSlider.Value = GradeSlider.Minimum;
 
-                _viewModel.SaveGrade();
+                    _viewModel.SaveGrade();
+                }
             }
         }
     }
 
     private void SignButton_Clicked(object sender, EventArgs e)
     {
-        if (_viewModel.Note.Contains('-'))
+        if (_viewModel.HasData)
         {
-            _viewModel.Note = _viewModel.Note.Split('-')[0];
-            _viewModel.SaveGrade();
-        }
-        else
-        {
-            _viewModel.Note = _viewModel.Note + "-";
-            _viewModel.SaveGrade();
+            if (_viewModel.Note.Contains('-'))
+            {
+                _viewModel.Note = _viewModel.Note.Split('-')[0];
+                _viewModel.SaveGrade();
+            }
+            else
+            {
+                _viewModel.Note = _viewModel.Note + "-";
+                _viewModel.SaveGrade();
+            }
         }
     }
 
     private async void BackButton_Clicked(object sender, EventArgs e)
     {
-        // Navigiere durch die ShuffleIndicies
-        _viewModel.Next(-1);
+        if (_viewModel.HasData)
+        {
+            // Navigiere durch die ShuffleIndicies
+            _viewModel.Next(-1);
 
-        await this.Content.FadeTo(0, 500);
-        Refresh();
-        await this.Content.FadeTo(1, 500);
+            await this.Content.FadeTo(0, 500);
+            Refresh();
+            await this.Content.FadeTo(1, 500);
+        }
 
     }
 
     private async void NextButton_Clicked(object sender, EventArgs e)
     {
-        // Navigiere durch die ShuffleIndicies
-        _viewModel.Next(1);
+        if (_viewModel.HasData)
+        {
+            // Navigiere durch die ShuffleIndicies
+            _viewModel.Next(1);
 
-        await this.Content.FadeTo(0, 500);
-        Refresh();
-        await this.Content.FadeTo(1, 500);
+            await this.Content.FadeTo(0, 500);
+            Refresh();
+            await this.Content.FadeTo(1, 500);
+        }
     }
 
     protected override void OnAppearing()
@@ -106,6 +121,7 @@ public class NotenViewModel : INotifyPropertyChanged
     private AppManager _manager;
     private Grade _grade;
     private Debouncer _bouncer;
+    public bool HasData;
 
     private bool _hasNext;
     public bool HasNext
@@ -258,25 +274,30 @@ public class NotenViewModel : INotifyPropertyChanged
         InitProperties();
 
         _bouncer = new Debouncer(500);
-
-        // TODO Nach dem Laden der Daten kann auch gleich ohne zuvor die Teilnehmerliste zu laden
-        // auf den Tab Noten getappt werden. In Noten wird dann aber die falsche Erste Person angezeigt.
-        // Die NotenPage ermittelt sich aus der Current.Exam und Current.Participant. Exam passt, aber
-        // der Participant soll der erste gemäß der ShuffleIndicies sein! Die ShuffleIndicies müssen als
-        // beim Aufruf des Flyoutmenüs Notenvergabe erstellt werden.
     }
 
     public void InitProperties()
     {
         var index = _manager?.CurrentShuffleIndex + 1;
+
         _grade = _manager.GetCurrentGrade();
-        Name = _grade.Participant.Nachname;
-        Vorname = _grade.Participant.Vorname;
-        Verein = _manager?.CurrentParticipant?.Verein;
-        NR = (index).ToString();
-        Bemerkung = _grade.Bemerkung;
-        Note = _grade.Note;
-        PruefungsName = _manager?.CurrentExam?.Name;
+        if (_grade != null)
+        {
+            HasData = true;
+            Name = _grade.Participant.Nachname;
+            Vorname = _grade.Participant.Vorname;
+            Note = _grade.Note;
+            Bemerkung = _grade.Bemerkung;
+
+            NR = (index).ToString();
+        }
+        else
+        {
+            HasData = false;
+        }
+
+        Verein = _manager?.CurrentParticipant?.Verein ?? "Keine Prüfung geladen";
+        PruefungsName = _manager?.CurrentExam?.Name ?? "Kein Teilnehmer geladen";
 
         _hasBefore = true;
         _hasNext = true;

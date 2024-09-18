@@ -17,7 +17,7 @@ public partial class Mustervorlage : ContentPage
         var path = await FolderPicker.Default.PickAsync(CancellationToken.None);
         if (path.IsSuccessful)
         {
-            TestIOExcel.Run(Path.Combine(path.Folder.Path, "TEST_Data.xls"), false);
+            TestIOExcel.Run(Path.Combine(path.Folder.Path, $"BergNoten - Vorlage - {DateTime.Now.ToString("yy-MM-dd HH-mm")}.xls"), false);
         }
     }
 }
